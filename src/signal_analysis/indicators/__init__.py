@@ -1,22 +1,91 @@
-from signal_analysis.indicators.moving_averages import (compute_ema, compute_kama, compute_sma, compute_wma)
-from signal_analysis.indicators.momentum        import (compute_rsi, compute_roc, compute_tsi)
-from signal_analysis.indicators.volatility      import (compute_atr, compute_bollinger_bands, compute_tr)
-from signal_analysis.indicators.trend_strength  import (compute_adx, compute_directional_indicators, compute_macd, compute_macd_components,
-                                                        compute_macd_hist, compute_macd_signal, compute_minus_di, compute_plus_di)
-from signal_analysis.indicators.oscillators     import (compute_stochastic, compute_stochastic_signal, compute_stochrsi,
-                                                        compute_stochrsi_d, compute_stochrsi_k, compute_williams_r)
+from signal_analysis.indicators.momentum import (
+    MomentumIndicators,
+    MovingAverages,
+    compute_ema,
+    compute_kama,
+    compute_roc,
+    compute_rsi,
+    compute_rsi_tsi_regime,
+    compute_sma,
+    compute_tsi,
+    compute_wma,
+)
+from signal_analysis.indicators.volatility import (
+    VolatilityIndicators,
+    compute_adx_directional_signal,
+    compute_atr,
+    compute_bollinger_bands,
+    compute_bollinger_reference_signal,
+    compute_tr,
+)
+from signal_analysis.indicators.trend import (
+    TrendStrength,
+    build_trending_struct,
+    classify_trend_block,
+    compute_adx,
+    compute_block_trend_profile,
+    compute_directional_indicators,
+    compute_macd,
+    compute_macd_components,
+    compute_macd_hist,
+    compute_macd_signal,
+    compute_minus_di,
+    compute_plus_di,
+    compute_trend_helper_signal,
+    compute_weighted_trend_score,
+)
+from signal_analysis.indicators.oscillator import (
+    Oscillators,
+    compute_stochastic,
+    compute_stochastic_signal,
+    compute_stochrsi,
+    compute_stochrsi_d,
+    compute_stochrsi_k,
+    compute_williams_r,
+)
+from signal_analysis.indicators.levels import (
+    PriceLevelIndicators,
+    compute_fibonacci_levels,
+    compute_support_resistance,
+)
+from signal_analysis.indicators.volume import (
+    VolumeIndicators,
+    add_volume_features,
+    compute_order_flow_metrics,
+    compute_volume_stats,
+    compute_vwap_metrics,
+)
+from signal_analysis.indicators.variable_action import (
+    VariableActionIndicators,
+    add_ohlc_geometry_features,
+    classify_ohlc_geometry,
+    compute_ohlc_geometry,
+)
 
 __all__ = [
+    # Classes
+    "MovingAverages",
+    "MomentumIndicators",
+    "VolatilityIndicators",
+    "TrendStrength",
+    "Oscillators",
+    "PriceLevelIndicators",
+    "VolumeIndicators",
+    "VariableActionIndicators",
+    # Backward-compat functions
     "compute_sma",
     "compute_ema",
     "compute_wma",
     "compute_kama",
     "compute_rsi",
+    "compute_rsi_tsi_regime",
     "compute_tsi",
     "compute_roc",
     "compute_bollinger_bands",
-    "compute_true_range",
+    "compute_bollinger_reference_signal",
+    "compute_tr",
     "compute_atr",
+    "compute_adx_directional_signal",
     "compute_macd_components",
     "compute_macd",
     "compute_macd_signal",
@@ -25,10 +94,24 @@ __all__ = [
     "compute_minus_di",
     "compute_adx",
     "compute_directional_indicators",
+    "compute_trend_helper_signal",
+    "classify_trend_block",
+    "compute_weighted_trend_score",
+    "build_trending_struct",
+    "compute_block_trend_profile",
     "compute_stochastic",
     "compute_stochastic_signal",
     "compute_williams_r",
     "compute_stochrsi",
     "compute_stochrsi_k",
     "compute_stochrsi_d",
+    "compute_fibonacci_levels",
+    "compute_support_resistance",
+    "compute_volume_stats",
+    "compute_vwap_metrics",
+    "compute_order_flow_metrics",
+    "add_volume_features",
+    "compute_ohlc_geometry",
+    "classify_ohlc_geometry",
+    "add_ohlc_geometry_features",
 ]

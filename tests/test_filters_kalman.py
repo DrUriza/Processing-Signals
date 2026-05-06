@@ -1,4 +1,5 @@
 import pandas                as pd
+import pytest
 from signal_analysis.filters import (kalman_filter_1d, kalman_filter_multivariate, kalman_filter_ohlc)
 
 
@@ -41,3 +42,14 @@ def test_kalman_filter_ohlc_returns_dataframe():
     out = kalman_filter_ohlc(df)
     assert isinstance(out, pd.DataFrame)
     assert list(out.columns) == ["open", "high", "low", "close"]
+
+
+def test_kalman_filter_1d_empty_input_raises_value_error():
+    with pytest.raises(ValueError, match="must not be empty"):
+        kalman_filter_1d([])
+
+
+def test_kalman_filter_multivariate_empty_input_raises_value_error():
+    df = pd.DataFrame({"a": [], "b": []})
+    with pytest.raises(ValueError, match="must not be empty"):
+        kalman_filter_multivariate(df)

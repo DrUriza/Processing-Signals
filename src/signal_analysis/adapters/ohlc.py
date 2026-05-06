@@ -1,6 +1,7 @@
 from __future__                    import annotations
 import pandas                      as pd
 from signal_analysis.utils.helpers import to_series, validate_window
+from signal_analysis.utils.ohlc    import typical_price
 
 # \file **********************************************************************
 # COMPANY:            ELATIN
@@ -27,23 +28,23 @@ class OHLCAdapter:
     #                 step:   Step between windows (defaults to window)
     # @param[out]     result: OHLC DataFrame
     #
-    # @callsequence   @startuml
-    #                 title OHLCAdapter.series_to_ohlc_windows
-    #                 start
-    #                 :Validate window;
-    #                 :Convert input to pd.Series;
-    #                 if (step is None?) then (yes)
-    #                   :Set step = window;
-    #                 endif
-    #                 :Validate step;
-    #                 repeat
-    #                   :Slice chunk [start:start+window];
-    #                   :Compute open/high/low/close;
-    #                   :Append row with start/end indices;
-    #                 repeat while (more windows)
-    #                 :Build and return DataFrame;
-    #                 end
-    #                 @enduml
+    # @callsequence       @startuml
+    #                     title OHLCAdapter.series_to_ohlc_windows
+    #                     start
+    #                     :Validate window;
+    #                     :Convert input to pd.Series;
+    #                     if (step is None?) then (yes)
+    #                       :Set step = window;
+    #                     endif
+    #                     :Validate step;
+    #                     repeat
+    #                       :Slice chunk [start:start+window];
+    #                       :Compute open/high/low/close;
+    #                       :Append row with start/end indices;
+    #                     repeat while (more windows)
+    #                     :Build and return DataFrame;
+    #                     end
+    #                     @enduml
     # *******************************************************************************************************************
     @staticmethod
     def series_to_ohlc_windows(series, window: int, step: int | None = None) -> pd.DataFrame:
@@ -75,23 +76,23 @@ class OHLCAdapter:
     #                 index_mode: "end" | "start" | "range"
     # @param[out]     result: Indexed OHLC DataFrame
     #
-    # @callsequence   @startuml
-    #                 title OHLCAdapter.series_to_ohlc_dataframe
-    #                 start
-    #                 :Call series_to_ohlc_windows;
-    #                 if (index_mode == "end"?) then (yes)
-    #                   :Set index = end_idx;
-    #                   :Return DataFrame;
-    #                 elseif (index_mode == "start"?) then (yes)
-    #                   :Set index = start_idx;
-    #                   :Return DataFrame;
-    #                 elseif (index_mode == "range"?) then (yes)
-    #                   :Return DataFrame unchanged;
-    #                 else (no)
-    #                   :Raise ValueError;
-    #                 endif
-    #                 end
-    #                 @enduml
+    # @callsequence       @startuml
+    #                     title OHLCAdapter.series_to_ohlc_dataframe
+    #                     start
+    #                     :Call series_to_ohlc_windows;
+    #                     if (index_mode == "end"?) then (yes)
+    #                       :Set index = end_idx;
+    #                       :Return DataFrame;
+    #                     elseif (index_mode == "start"?) then (yes)
+    #                       :Set index = start_idx;
+    #                       :Return DataFrame;
+    #                     elseif (index_mode == "range"?) then (yes)
+    #                       :Return DataFrame unchanged;
+    #                     else (no)
+    #                       :Raise ValueError;
+    #                     endif
+    #                     end
+    #                     @enduml
     # *******************************************************************************************************************
     @staticmethod
     def series_to_ohlc_dataframe(series, window: int, step: int | None = None, index_mode: str = "end") -> pd.DataFrame:
@@ -118,23 +119,23 @@ class OHLCAdapter:
     #                       "weighted" → (H + L + 2·C) / 4
     # @param[out]     result: pd.Series
     #
-    # @callsequence   @startuml
-    #                 title OHLCAdapter.ohlc_to_series
-    #                 start
-    #                 :Validate required OHLC columns;
-    #                 if (mode == "close"?) then (yes)
-    #                   :Return close column copy;
-    #                 elseif (mode == "typical"?) then (yes)
-    #                   :Compute (H + L + C) / 3;
-    #                   :Return typical price series;
-    #                 elseif (mode == "weighted"?) then (yes)
-    #                   :Compute (H + L + 2C) / 4;
-    #                   :Return weighted close series;
-    #                 else (no)
-    #                   :Raise ValueError;
-    #                 endif
-    #                 end
-    #                 @enduml
+    # @callsequence       @startuml
+    #                     title OHLCAdapter.ohlc_to_series
+    #                     start
+    #                     :Validate required OHLC columns;
+    #                     if (mode == "close"?) then (yes)
+    #                       :Return close column copy;
+    #                     elseif (mode == "typical"?) then (yes)
+    #                       :Compute (H + L + C) / 3;
+    #                       :Return typical price series;
+    #                     elseif (mode == "weighted"?) then (yes)
+    #                       :Compute (H + L + 2C) / 4;
+    #                       :Return weighted close series;
+    #                     else (no)
+    #                       :Raise ValueError;
+    #                     endif
+    #                     end
+    #                     @enduml
     # *******************************************************************************************************************
     @staticmethod
     def ohlc_to_series(ohlc: pd.DataFrame, mode: str = "close") -> pd.Series:
@@ -145,8 +146,7 @@ class OHLCAdapter:
             result = ohlc["close"].copy()
             result.name = "close"
         elif mode == "typical":
-            result = (ohlc["high"] + ohlc["low"] + ohlc["close"]) / 3.0
-            result.name = "typical_price"
+            result = typical_price(ohlc["high"], ohlc["low"], ohlc["close"])
         elif mode == "weighted":
             result = (ohlc["high"] + ohlc["low"] + 2.0 * ohlc["close"]) / 4.0
             result.name = "weighted_close"

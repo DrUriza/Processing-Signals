@@ -3,7 +3,7 @@ import pandas as pd
 
 from signal_analysis.transforms.fourier import compute_fft_magnitude
 from signal_analysis.transforms.wavelet import wavelet_energy_placeholder
-from signal_analysis.radar.micro_doppler import micro_doppler_features_placeholder
+from signal_analysis.microstructures.micro_doppler import micro_doppler_features_placeholder
 
 
 def test_compute_fft_magnitude_returns_arrays():

@@ -84,6 +84,9 @@ class KalmanFilters:
         _validate_positive_float(dt, "dt")
 
         s = to_series(series, name="signal")
+        if s.empty:
+            raise ValueError("Input series must not be empty.")
+
         idx = s.index
         z_values = s.to_numpy(dtype=float)
 
@@ -182,6 +185,9 @@ class KalmanFilters:
             raise ValueError("No numeric columns available to filter.")
 
         obs = data[columns].astype(float).copy()
+        if obs.empty:
+            raise ValueError("Input data must not be empty.")
+
         idx = obs.index
 
         prices = obs.to_numpy(dtype=float)

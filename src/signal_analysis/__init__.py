@@ -5,6 +5,14 @@ Reusable signal-analysis toolkit for indicators, transforms, topology,
 filters, adapters, utils, and radar-oriented feature extraction.
 """
 
+from signal_analysis.core import (
+    build_feature_contract,
+    infer_time_column,
+    validate_dataframe,
+    validate_numeric_columns,
+    validate_ohlc_columns,
+    validate_required_columns,
+)
 from signal_analysis.adapters import (
     series_to_ohlc_dataframe,
     series_to_ohlc_windows,
@@ -15,6 +23,8 @@ from signal_analysis.filters import (
     kalman_filter_ohlc,
 )
 from signal_analysis.indicators import (
+    add_ohlc_geometry_features,
+    classify_ohlc_geometry,
     compute_adx,
     compute_atr,
     compute_bollinger_bands,
@@ -26,6 +36,7 @@ from signal_analysis.indicators import (
     compute_macd_hist,
     compute_macd_signal,
     compute_minus_di,
+    compute_ohlc_geometry,
     compute_plus_di,
     compute_roc,
     compute_rsi,
@@ -36,16 +47,15 @@ from signal_analysis.indicators import (
     compute_stochrsi_d,
     compute_stochrsi_k,
     compute_tr,
-    compute_tr,
     compute_tsi,
     compute_williams_r,
     compute_wma,
 )
-from signal_analysis.radar import (
+from signal_analysis.microstructures import (
     compute_md_proxy_features,
     micro_doppler_features_placeholder,
 )
-from signal_analysis.topology import (
+from signal_analysis.microstructures import (
     pairwise_distance_matrix,
     rolling_wasserstein_profile,
     sliding_window_embedding,
@@ -65,6 +75,12 @@ from signal_analysis.transforms import (
     spectral_energy,
     wavelet_energy_placeholder,
 )
+from signal_analysis.signals import (
+    detectar_compra,
+    detectar_venta,
+    high_volume,
+    stop_loss_take_profit,
+)
 from signal_analysis.utils import (
     cross_above,
     cross_below,
@@ -80,6 +96,12 @@ __version__ = "0.1.0"
 
 __all__ = [
     "__version__",
+    "validate_dataframe",
+    "validate_required_columns",
+    "validate_numeric_columns",
+    "validate_ohlc_columns",
+    "infer_time_column",
+    "build_feature_contract",
     "compute_sma",
     "compute_ema",
     "compute_wma",
@@ -88,7 +110,6 @@ __all__ = [
     "compute_tsi",
     "compute_roc",
     "compute_bollinger_bands",
-    "compute_tr",
     "compute_tr",
     "compute_atr",
     "compute_macd_components",
@@ -105,6 +126,9 @@ __all__ = [
     "compute_stochrsi",
     "compute_stochrsi_k",
     "compute_stochrsi_d",
+    "compute_ohlc_geometry",
+    "classify_ohlc_geometry",
+    "add_ohlc_geometry_features",
     "to_series",
     "validate_window",
     "ema_series",
@@ -136,4 +160,8 @@ __all__ = [
     "kalman_filter_ohlc",
     "micro_doppler_features_placeholder",
     "compute_md_proxy_features",
+    "detectar_compra",
+    "detectar_venta",
+    "high_volume",
+    "stop_loss_take_profit",
 ]
