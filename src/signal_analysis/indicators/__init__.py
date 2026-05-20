@@ -61,6 +61,37 @@ from signal_analysis.indicators.variable_action import (
     classify_ohlc_geometry,
     compute_ohlc_geometry,
 )
+from signal_analysis.indicators.invariants import (
+    InvariantIndicators,
+    add_invariant_features,
+    compute_local_ratio,
+    compute_log_ratio,
+    compute_minmax_position,
+    compute_normalized_energy,
+    compute_relative_change,
+    compute_robust_zscore,
+    compute_rolling_energy,
+    compute_rolling_zscore,
+)
+from signal_analysis.indicators.dynamics import (
+    DynamicsIndicators,
+    add_dynamics_features,
+    compute_acceleration,
+    compute_curvature,
+    compute_dynamic_profile,
+    compute_jerk,
+    compute_velocity,
+)
+from signal_analysis.indicators.states import (
+    SignalStateIndicators,
+    build_signal_state_frame,
+    compute_activity_state,
+    compute_momentum_state,
+    compute_slope_state,
+    compute_structure_state,
+    compute_trend_state,
+    compute_volatility_state,
+)
 
 __all__ = [
     # Classes
@@ -72,6 +103,9 @@ __all__ = [
     "PriceLevelIndicators",
     "VolumeIndicators",
     "VariableActionIndicators",
+    "InvariantIndicators",
+    "DynamicsIndicators",
+    "SignalStateIndicators",
     # Backward-compat functions
     "compute_sma",
     "compute_ema",
@@ -114,4 +148,26 @@ __all__ = [
     "compute_ohlc_geometry",
     "classify_ohlc_geometry",
     "add_ohlc_geometry_features",
+    "compute_rolling_zscore",
+    "compute_robust_zscore",
+    "compute_local_ratio",
+    "compute_log_ratio",
+    "compute_relative_change",
+    "compute_rolling_energy",
+    "compute_normalized_energy",
+    "compute_minmax_position",
+    "add_invariant_features",
+    "compute_velocity",
+    "compute_acceleration",
+    "compute_jerk",
+    "compute_curvature",
+    "compute_dynamic_profile",
+    "add_dynamics_features",
+    "compute_slope_state",
+    "compute_trend_state",
+    "compute_momentum_state",
+    "compute_volatility_state",
+    "compute_structure_state",
+    "compute_activity_state",
+    "build_signal_state_frame",
 ]

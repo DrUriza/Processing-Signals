@@ -1,3 +1,6 @@
+# Compatibility wrapper.
+# Canonical implementation lives in signal_analysis.indicators.levels.
+
 from signal_analysis.indicators.levels.price_levels import (
     PriceLevelIndicators,
     compute_fibonacci_levels,

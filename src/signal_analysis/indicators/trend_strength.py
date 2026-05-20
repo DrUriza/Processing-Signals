@@ -1,3 +1,6 @@
+# Compatibility wrapper.
+# Canonical implementation lives in signal_analysis.indicators.trend.
+
 from signal_analysis.indicators.trend.trend_strength import (
     TrendStrength,
     build_trending_struct,

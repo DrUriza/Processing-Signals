@@ -1,3 +1,6 @@
+# Compatibility wrapper.
+# Canonical implementation lives in signal_analysis.indicators.volatility.
+
 from signal_analysis.indicators.volatility.volatility import (
     VolatilityIndicators,
     compute_adx_directional_signal,

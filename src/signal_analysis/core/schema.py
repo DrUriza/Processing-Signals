@@ -112,13 +112,6 @@ def validate_required_columns(df: pd.DataFrame, required_columns: list[str]) -> 
             f"Available: {sorted(df.columns)}"
         )
 
-    missing_cols = set(required_columns) - set(df.columns)
-    if missing_cols:
-        raise ValueError(
-            f"Missing required columns: {sorted(missing_cols)}. "
-            f"Available: {sorted(df.columns)}"
-        )
-
 
 # *********************************************************************************************************************
 # Functionname:       validate_numeric_columns(df: pd.DataFrame, columns: list[str])

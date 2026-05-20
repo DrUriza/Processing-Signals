@@ -1,3 +1,6 @@
+# Compatibility wrapper.
+# Canonical implementation lives in signal_analysis.indicators.volume.
+
 from signal_analysis.indicators.volume.volume import (
     VolumeIndicators,
     add_volume_features,

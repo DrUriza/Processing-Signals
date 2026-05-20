@@ -1,3 +1,6 @@
+# Compatibility wrapper.
+# Canonical implementation lives in signal_analysis.indicators.oscillator.
+
 from signal_analysis.indicators.oscillator.oscillators import (
     Oscillators,
     compute_stochastic,

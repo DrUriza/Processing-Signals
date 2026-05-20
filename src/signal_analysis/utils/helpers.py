@@ -42,7 +42,7 @@ def to_series(data, name: str = "series") -> pd.Series:
 
 
 # *******************************************************************************************************************
-# Functionname:       validate_window(window: int, name: str = "window")
+# Functionname:       validate_positive_window(window: int, name: str = "window")
 #
 # @brief              Validate that a window-like parameter is a positive integer.
 # @pre                name should be a valid parameter label.
@@ -52,7 +52,7 @@ def to_series(data, name: str = "series") -> pd.Series:
 # @param[out]         out: None
 #
 # @callsequence       @startuml
-#                     title validate_window
+#                     title validate_positive_window
 #                     start
 #                     if (window is not positive integer?) then (yes)
 #                       :Raise ValueError;
@@ -62,9 +62,23 @@ def to_series(data, name: str = "series") -> pd.Series:
 #                     stop
 #                     @enduml
 # *******************************************************************************************************************
-def validate_window(window: int, name: str = "window") -> None:
+def validate_positive_window(window: int, name: str = "window") -> None:
     if not isinstance(window, int) or window <= 0:
         raise ValueError(f"{name} must be a positive integer.")
+
+
+# *******************************************************************************************************************
+# Functionname:       validate_window(window: int, name: str = "window")
+#
+# @brief              Backward-compatible wrapper for positive integer window validation.
+# @pre                name should be a valid parameter label.
+# @post               Delegates validation to validate_positive_window().
+# @param[in]          window: Candidate window-like value
+#                     name: Parameter name used in error messages
+# @param[out]         out: None
+# *******************************************************************************************************************
+def validate_window(window: int, name: str = "window") -> None:
+    validate_positive_window(window, name=name)
 
 
 # *******************************************************************************************************************
@@ -91,6 +105,6 @@ def validate_window(window: int, name: str = "window") -> None:
 #                     @enduml
 # *******************************************************************************************************************
 def ema_series(series: pd.Series, window: int, adjust: bool = False, min_periods: int | None = None) -> pd.Series:
-    validate_window(window, "window")
+    validate_positive_window(window, "window")
     mp = window if min_periods is None else min_periods
     return series.ewm(span=window, adjust=adjust, min_periods=mp).mean()
