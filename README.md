@@ -1,4 +1,4 @@
-# signal_analysis
+# Processing Signals
 
 Reusable domain-agnostic signal-analysis toolkit for windowed feature extraction, indicators, transforms, temporal alignment, and compact tabular pipelines.
 
