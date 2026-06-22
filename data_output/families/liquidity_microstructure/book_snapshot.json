@@ -1,0 +1,1641 @@
+{
+  "pipeline": "Processing-Signals MainPipeline",
+  "version": "0.1.0",
+  "family_key": "liquidity_microstructure",
+  "output_shape": "book_snapshot",
+  "records_processed": 1,
+  "symbols": [
+    "BTCUSDT"
+  ],
+  "timeframes": [],
+  "data_types": {
+    "orderbook_conventional": 1
+  },
+  "blocks": [
+    {
+      "source_name": "btc_order_book_conventional_200_levels.json",
+      "detected": {
+        "source_name": "btc_order_book_conventional_200_levels.json",
+        "data_type": "orderbook_conventional",
+        "canonical_type": "book_snapshot",
+        "confidence": "high",
+        "symbol": "BTCUSDT",
+        "timeframe": null,
+        "asset": "Bitcoin",
+        "provider_source": "synthetic_for_processing_demo",
+        "timestamp_utc": "2026-06-20T12:00:00+00:00",
+        "metadata": {
+          "asset": "Bitcoin",
+          "symbol": "BTCUSDT",
+          "data_type": "order_book",
+          "order_book_type": "conventional",
+          "source": "synthetic_for_processing_demo",
+          "timestamp_utc": "2026-06-20T12:00:00+00:00",
+          "levels_per_side": 100,
+          "records": 200
+        }
+      },
+      "normalized": {
+        "kind": "orderbook_conventional",
+        "symbol": "BTCUSDT",
+        "timeframe": null,
+        "bids": [
+          {
+            "level": 1,
+            "side": "bid",
+            "price": 104240.0,
+            "quantity_btc": 12.9546,
+            "notional_usdt": 1350390.18
+          },
+          {
+            "level": 2,
+            "side": "bid",
+            "price": 104230.0,
+            "quantity_btc": 13.0756,
+            "notional_usdt": 1362867.79
+          },
+          {
+            "level": 3,
+            "side": "bid",
+            "price": 104220.0,
+            "quantity_btc": 0.917,
+            "notional_usdt": 95571.79
+          },
+          {
+            "level": 4,
+            "side": "bid",
+            "price": 104210.0,
+            "quantity_btc": 12.2328,
+            "notional_usdt": 1274775.01
+          },
+          {
+            "level": 5,
+            "side": "bid",
+            "price": 104200.0,
+            "quantity_btc": 0.7285,
+            "notional_usdt": 75906.02
+          },
+          {
+            "level": 6,
+            "side": "bid",
+            "price": 104190.0,
+            "quantity_btc": 11.6563,
+            "notional_usdt": 1214466.12
+          },
+          {
+            "level": 7,
+            "side": "bid",
+            "price": 104180.0,
+            "quantity_btc": 11.0698,
+            "notional_usdt": 1153254.46
+          },
+          {
+            "level": 8,
+            "side": "bid",
+            "price": 104170.0,
+            "quantity_btc": 1.7592,
+            "notional_usdt": 183258.17
+          },
+          {
+            "level": 9,
+            "side": "bid",
+            "price": 104160.0,
+            "quantity_btc": 9.3984,
+            "notional_usdt": 978938.71
+          },
+          {
+            "level": 10,
+            "side": "bid",
+            "price": 104150.0,
+            "quantity_btc": 6.8232,
+            "notional_usdt": 710638.14
+          },
+          {
+            "level": 11,
+            "side": "bid",
+            "price": 104140.0,
+            "quantity_btc": 12.3852,
+            "notional_usdt": 1289795.34
+          },
+          {
+            "level": 12,
+            "side": "bid",
+            "price": 104130.0,
+            "quantity_btc": 7.0881,
+            "notional_usdt": 738087.52
+          },
+          {
+            "level": 13,
+            "side": "bid",
+            "price": 104120.0,
+            "quantity_btc": 16.5235,
+            "notional_usdt": 1720428.26
+          },
+          {
+            "level": 14,
+            "side": "bid",
+            "price": 104110.0,
+            "quantity_btc": 12.4359,
+            "notional_usdt": 1294701.03
+          },
+          {
+            "level": 15,
+            "side": "bid",
+            "price": 104100.0,
+            "quantity_btc": 0.4383,
+            "notional_usdt": 45622.8
+          },
+          {
+            "level": 16,
+            "side": "bid",
+            "price": 104090.0,
+            "quantity_btc": 11.6594,
+            "notional_usdt": 1213623.99
+          },
+          {
+            "level": 17,
+            "side": "bid",
+            "price": 104080.0,
+            "quantity_btc": 13.0538,
+            "notional_usdt": 1358634.88
+          },
+          {
+            "level": 18,
+            "side": "bid",
+            "price": 104070.0,
+            "quantity_btc": 7.7542,
+            "notional_usdt": 806981.06
+          },
+          {
+            "level": 19,
+            "side": "bid",
+            "price": 104060.0,
+            "quantity_btc": 0.2401,
+            "notional_usdt": 24987.82
+          },
+          {
+            "level": 20,
+            "side": "bid",
+            "price": 104050.0,
+            "quantity_btc": 5.1244,
+            "notional_usdt": 533190.29
+          },
+          {
+            "level": 21,
+            "side": "bid",
+            "price": 104040.0,
+            "quantity_btc": 1.65,
+            "notional_usdt": 171662.71
+          },
+          {
+            "level": 22,
+            "side": "bid",
+            "price": 104030.0,
+            "quantity_btc": 5.1245,
+            "notional_usdt": 533098.9
+          },
+          {
+            "level": 23,
+            "side": "bid",
+            "price": 104020.0,
+            "quantity_btc": 3.552,
+            "notional_usdt": 369474.63
+          },
+          {
+            "level": 24,
+            "side": "bid",
+            "price": 104010.0,
+            "quantity_btc": 10.4603,
+            "notional_usdt": 1087980.97
+          },
+          {
+            "level": 25,
+            "side": "bid",
+            "price": 104000.0,
+            "quantity_btc": 4.2158,
+            "notional_usdt": 438444.36
+          },
+          {
+            "level": 26,
+            "side": "bid",
+            "price": 103990.0,
+            "quantity_btc": 7.2241,
+            "notional_usdt": 751237.61
+          },
+          {
+            "level": 27,
+            "side": "bid",
+            "price": 103980.0,
+            "quantity_btc": 9.1676,
+            "notional_usdt": 953246.74
+          },
+          {
+            "level": 28,
+            "side": "bid",
+            "price": 103970.0,
+            "quantity_btc": 11.6811,
+            "notional_usdt": 1214482.59
+          },
+          {
+            "level": 29,
+            "side": "bid",
+            "price": 103960.0,
+            "quantity_btc": 6.7612,
+            "notional_usdt": 702893.11
+          },
+          {
+            "level": 30,
+            "side": "bid",
+            "price": 103950.0,
+            "quantity_btc": 1.7551,
+            "notional_usdt": 182443.64
+          },
+          {
+            "level": 31,
+            "side": "bid",
+            "price": 103940.0,
+            "quantity_btc": 5.1806,
+            "notional_usdt": 538472.2
+          },
+          {
+            "level": 32,
+            "side": "bid",
+            "price": 103930.0,
+            "quantity_btc": 3.7755,
+            "notional_usdt": 392389.22
+          },
+          {
+            "level": 33,
+            "side": "bid",
+            "price": 103920.0,
+            "quantity_btc": 17.5433,
+            "notional_usdt": 1823096.47
+          },
+          {
+            "level": 34,
+            "side": "bid",
+            "price": 103910.0,
+            "quantity_btc": 0.5119,
+            "notional_usdt": 53187.89
+          },
+          {
+            "level": 35,
+            "side": "bid",
+            "price": 103900.0,
+            "quantity_btc": 10.9681,
+            "notional_usdt": 1139586.66
+          },
+          {
+            "level": 36,
+            "side": "bid",
+            "price": 103890.0,
+            "quantity_btc": 8.2633,
+            "notional_usdt": 858473.93
+          },
+          {
+            "level": 37,
+            "side": "bid",
+            "price": 103880.0,
+            "quantity_btc": 5.2469,
+            "notional_usdt": 545043.36
+          },
+          {
+            "level": 38,
+            "side": "bid",
+            "price": 103870.0,
+            "quantity_btc": 17.579,
+            "notional_usdt": 1825928.92
+          },
+          {
+            "level": 39,
+            "side": "bid",
+            "price": 103860.0,
+            "quantity_btc": 8.6453,
+            "notional_usdt": 897902.68
+          },
+          {
+            "level": 40,
+            "side": "bid",
+            "price": 103850.0,
+            "quantity_btc": 10.0743,
+            "notional_usdt": 1046217.96
+          },
+          {
+            "level": 41,
+            "side": "bid",
+            "price": 103840.0,
+            "quantity_btc": 10.8412,
+            "notional_usdt": 1125753.47
+          },
+          {
+            "level": 42,
+            "side": "bid",
+            "price": 103830.0,
+            "quantity_btc": 11.2799,
+            "notional_usdt": 1171192.13
+          },
+          {
+            "level": 43,
+            "side": "bid",
+            "price": 103820.0,
+            "quantity_btc": 11.4389,
+            "notional_usdt": 1187587.45
+          },
+          {
+            "level": 44,
+            "side": "bid",
+            "price": 103810.0,
+            "quantity_btc": 5.3202,
+            "notional_usdt": 552288.22
+          },
+          {
+            "level": 45,
+            "side": "bid",
+            "price": 103800.0,
+            "quantity_btc": 12.3841,
+            "notional_usdt": 1285473.17
+          },
+          {
+            "level": 46,
+            "side": "bid",
+            "price": 103790.0,
+            "quantity_btc": 10.7839,
+            "notional_usdt": 1119262.63
+          },
+          {
+            "level": 47,
+            "side": "bid",
+            "price": 103780.0,
+            "quantity_btc": 1.2475,
+            "notional_usdt": 129464.91
+          },
+          {
+            "level": 48,
+            "side": "bid",
+            "price": 103770.0,
+            "quantity_btc": 7.6949,
+            "notional_usdt": 798502.94
+          },
+          {
+            "level": 49,
+            "side": "bid",
+            "price": 103760.0,
+            "quantity_btc": 5.991,
+            "notional_usdt": 621623.27
+          },
+          {
+            "level": 50,
+            "side": "bid",
+            "price": 103750.0,
+            "quantity_btc": 1.4876,
+            "notional_usdt": 154337.57
+          },
+          {
+            "level": 51,
+            "side": "bid",
+            "price": 103740.0,
+            "quantity_btc": 8.3421,
+            "notional_usdt": 865405.38
+          },
+          {
+            "level": 52,
+            "side": "bid",
+            "price": 103730.0,
+            "quantity_btc": 0.1943,
+            "notional_usdt": 20158.98
+          },
+          {
+            "level": 53,
+            "side": "bid",
+            "price": 103720.0,
+            "quantity_btc": 11.5047,
+            "notional_usdt": 1193271.82
+          },
+          {
+            "level": 54,
+            "side": "bid",
+            "price": 103710.0,
+            "quantity_btc": 17.1842,
+            "notional_usdt": 1782169.98
+          },
+          {
+            "level": 55,
+            "side": "bid",
+            "price": 103700.0,
+            "quantity_btc": 7.1388,
+            "notional_usdt": 740289.01
+          },
+          {
+            "level": 56,
+            "side": "bid",
+            "price": 103690.0,
+            "quantity_btc": 4.5968,
+            "notional_usdt": 476640.56
+          },
+          {
+            "level": 57,
+            "side": "bid",
+            "price": 103680.0,
+            "quantity_btc": 7.469,
+            "notional_usdt": 774386.54
+          },
+          {
+            "level": 58,
+            "side": "bid",
+            "price": 103670.0,
+            "quantity_btc": 3.0216,
+            "notional_usdt": 313250.1
+          },
+          {
+            "level": 59,
+            "side": "bid",
+            "price": 103660.0,
+            "quantity_btc": 14.3426,
+            "notional_usdt": 1486751.83
+          },
+          {
+            "level": 60,
+            "side": "bid",
+            "price": 103650.0,
+            "quantity_btc": 9.2965,
+            "notional_usdt": 963578.17
+          },
+          {
+            "level": 61,
+            "side": "bid",
+            "price": 103640.0,
+            "quantity_btc": 8.6861,
+            "notional_usdt": 900222.9
+          },
+          {
+            "level": 62,
+            "side": "bid",
+            "price": 103630.0,
+            "quantity_btc": 5.6493,
+            "notional_usdt": 585436.68
+          },
+          {
+            "level": 63,
+            "side": "bid",
+            "price": 103620.0,
+            "quantity_btc": 7.9791,
+            "notional_usdt": 826789.28
+          },
+          {
+            "level": 64,
+            "side": "bid",
+            "price": 103610.0,
+            "quantity_btc": 6.264,
+            "notional_usdt": 649012.3
+          },
+          {
+            "level": 65,
+            "side": "bid",
+            "price": 103600.0,
+            "quantity_btc": 2.5282,
+            "notional_usdt": 261926.45
+          },
+          {
+            "level": 66,
+            "side": "bid",
+            "price": 103590.0,
+            "quantity_btc": 9.6022,
+            "notional_usdt": 994692.4
+          },
+          {
+            "level": 67,
+            "side": "bid",
+            "price": 103580.0,
+            "quantity_btc": 9.8141,
+            "notional_usdt": 1016546.53
+          },
+          {
+            "level": 68,
+            "side": "bid",
+            "price": 103570.0,
+            "quantity_btc": 17.0324,
+            "notional_usdt": 1764041.08
+          },
+          {
+            "level": 69,
+            "side": "bid",
+            "price": 103560.0,
+            "quantity_btc": 1.6265,
+            "notional_usdt": 168438.31
+          },
+          {
+            "level": 70,
+            "side": "bid",
+            "price": 103550.0,
+            "quantity_btc": 0.9475,
+            "notional_usdt": 98114.25
+          },
+          {
+            "level": 71,
+            "side": "bid",
+            "price": 103540.0,
+            "quantity_btc": 3.7108,
+            "notional_usdt": 384211.56
+          },
+          {
+            "level": 72,
+            "side": "bid",
+            "price": 103530.0,
+            "quantity_btc": 15.7667,
+            "notional_usdt": 1632322.1
+          },
+          {
+            "level": 73,
+            "side": "bid",
+            "price": 103520.0,
+            "quantity_btc": 8.86,
+            "notional_usdt": 917190.84
+          },
+          {
+            "level": 74,
+            "side": "bid",
+            "price": 103510.0,
+            "quantity_btc": 5.0774,
+            "notional_usdt": 525564.43
+          },
+          {
+            "level": 75,
+            "side": "bid",
+            "price": 103500.0,
+            "quantity_btc": 12.5557,
+            "notional_usdt": 1299510.01
+          },
+          {
+            "level": 76,
+            "side": "bid",
+            "price": 103490.0,
+            "quantity_btc": 15.1335,
+            "notional_usdt": 1566163.78
+          },
+          {
+            "level": 77,
+            "side": "bid",
+            "price": 103480.0,
+            "quantity_btc": 14.5149,
+            "notional_usdt": 1501998.15
+          },
+          {
+            "level": 78,
+            "side": "bid",
+            "price": 103470.0,
+            "quantity_btc": 14.8053,
+            "notional_usdt": 1531901.54
+          },
+          {
+            "level": 79,
+            "side": "bid",
+            "price": 103460.0,
+            "quantity_btc": 11.9461,
+            "notional_usdt": 1235946.14
+          },
+          {
+            "level": 80,
+            "side": "bid",
+            "price": 103450.0,
+            "quantity_btc": 14.1661,
+            "notional_usdt": 1465483.57
+          },
+          {
+            "level": 81,
+            "side": "bid",
+            "price": 103440.0,
+            "quantity_btc": 16.9804,
+            "notional_usdt": 1756448.64
+          },
+          {
+            "level": 82,
+            "side": "bid",
+            "price": 103430.0,
+            "quantity_btc": 10.6421,
+            "notional_usdt": 1100715.89
+          },
+          {
+            "level": 83,
+            "side": "bid",
+            "price": 103420.0,
+            "quantity_btc": 0.3033,
+            "notional_usdt": 31363.99
+          },
+          {
+            "level": 84,
+            "side": "bid",
+            "price": 103410.0,
+            "quantity_btc": 6.2566,
+            "notional_usdt": 646990.46
+          },
+          {
+            "level": 85,
+            "side": "bid",
+            "price": 103400.0,
+            "quantity_btc": 7.5177,
+            "notional_usdt": 777326.41
+          },
+          {
+            "level": 86,
+            "side": "bid",
+            "price": 103390.0,
+            "quantity_btc": 12.8434,
+            "notional_usdt": 1327882.25
+          },
+          {
+            "level": 87,
+            "side": "bid",
+            "price": 103380.0,
+            "quantity_btc": 14.4585,
+            "notional_usdt": 1494715.55
+          },
+          {
+            "level": 88,
+            "side": "bid",
+            "price": 103370.0,
+            "quantity_btc": 12.8382,
+            "notional_usdt": 1327088.34
+          },
+          {
+            "level": 89,
+            "side": "bid",
+            "price": 103360.0,
+            "quantity_btc": 17.1914,
+            "notional_usdt": 1776904.15
+          },
+          {
+            "level": 90,
+            "side": "bid",
+            "price": 103350.0,
+            "quantity_btc": 4.0634,
+            "notional_usdt": 419949.09
+          },
+          {
+            "level": 91,
+            "side": "bid",
+            "price": 103340.0,
+            "quantity_btc": 7.5527,
+            "notional_usdt": 780498.41
+          },
+          {
+            "level": 92,
+            "side": "bid",
+            "price": 103330.0,
+            "quantity_btc": 17.6831,
+            "notional_usdt": 1827191.15
+          },
+          {
+            "level": 93,
+            "side": "bid",
+            "price": 103320.0,
+            "quantity_btc": 5.5458,
+            "notional_usdt": 572995.19
+          },
+          {
+            "level": 94,
+            "side": "bid",
+            "price": 103310.0,
+            "quantity_btc": 13.4563,
+            "notional_usdt": 1390173.05
+          },
+          {
+            "level": 95,
+            "side": "bid",
+            "price": 103300.0,
+            "quantity_btc": 13.0365,
+            "notional_usdt": 1346667.31
+          },
+          {
+            "level": 96,
+            "side": "bid",
+            "price": 103290.0,
+            "quantity_btc": 11.3016,
+            "notional_usdt": 1167345.16
+          },
+          {
+            "level": 97,
+            "side": "bid",
+            "price": 103280.0,
+            "quantity_btc": 15.7913,
+            "notional_usdt": 1630930.4
+          },
+          {
+            "level": 98,
+            "side": "bid",
+            "price": 103270.0,
+            "quantity_btc": 5.1546,
+            "notional_usdt": 532316.41
+          },
+          {
+            "level": 99,
+            "side": "bid",
+            "price": 103260.0,
+            "quantity_btc": 4.8631,
+            "notional_usdt": 502161.92
+          },
+          {
+            "level": 100,
+            "side": "bid",
+            "price": 103250.0,
+            "quantity_btc": 4.6532,
+            "notional_usdt": 480438.2
+          }
+        ],
+        "asks": [
+          {
+            "level": 1,
+            "side": "ask",
+            "price": 104260.0,
+            "quantity_btc": 1.7001,
+            "notional_usdt": 177251.45
+          },
+          {
+            "level": 2,
+            "side": "ask",
+            "price": 104270.0,
+            "quantity_btc": 5.0251,
+            "notional_usdt": 523965.13
+          },
+          {
+            "level": 3,
+            "side": "ask",
+            "price": 104280.0,
+            "quantity_btc": 4.6831,
+            "notional_usdt": 488349.75
+          },
+          {
+            "level": 4,
+            "side": "ask",
+            "price": 104290.0,
+            "quantity_btc": 8.5027,
+            "notional_usdt": 886747.32
+          },
+          {
+            "level": 5,
+            "side": "ask",
+            "price": 104300.0,
+            "quantity_btc": 6.0391,
+            "notional_usdt": 629879.8
+          },
+          {
+            "level": 6,
+            "side": "ask",
+            "price": 104310.0,
+            "quantity_btc": 16.5628,
+            "notional_usdt": 1727660.56
+          },
+          {
+            "level": 7,
+            "side": "ask",
+            "price": 104320.0,
+            "quantity_btc": 9.0876,
+            "notional_usdt": 948014.02
+          },
+          {
+            "level": 8,
+            "side": "ask",
+            "price": 104330.0,
+            "quantity_btc": 16.0454,
+            "notional_usdt": 1674017.64
+          },
+          {
+            "level": 9,
+            "side": "ask",
+            "price": 104340.0,
+            "quantity_btc": 2.1168,
+            "notional_usdt": 220862.85
+          },
+          {
+            "level": 10,
+            "side": "ask",
+            "price": 104350.0,
+            "quantity_btc": 5.406,
+            "notional_usdt": 564114.22
+          },
+          {
+            "level": 11,
+            "side": "ask",
+            "price": 104360.0,
+            "quantity_btc": 9.1571,
+            "notional_usdt": 955630.69
+          },
+          {
+            "level": 12,
+            "side": "ask",
+            "price": 104370.0,
+            "quantity_btc": 11.576,
+            "notional_usdt": 1208190.32
+          },
+          {
+            "level": 13,
+            "side": "ask",
+            "price": 104380.0,
+            "quantity_btc": 7.9434,
+            "notional_usdt": 829133.79
+          },
+          {
+            "level": 14,
+            "side": "ask",
+            "price": 104390.0,
+            "quantity_btc": 12.486,
+            "notional_usdt": 1303415.61
+          },
+          {
+            "level": 15,
+            "side": "ask",
+            "price": 104400.0,
+            "quantity_btc": 4.7328,
+            "notional_usdt": 494105.5
+          },
+          {
+            "level": 16,
+            "side": "ask",
+            "price": 104410.0,
+            "quantity_btc": 12.9686,
+            "notional_usdt": 1354050.71
+          },
+          {
+            "level": 17,
+            "side": "ask",
+            "price": 104420.0,
+            "quantity_btc": 1.0495,
+            "notional_usdt": 109590.79
+          },
+          {
+            "level": 18,
+            "side": "ask",
+            "price": 104430.0,
+            "quantity_btc": 12.0415,
+            "notional_usdt": 1257492.63
+          },
+          {
+            "level": 19,
+            "side": "ask",
+            "price": 104440.0,
+            "quantity_btc": 8.7906,
+            "notional_usdt": 918093.16
+          },
+          {
+            "level": 20,
+            "side": "ask",
+            "price": 104450.0,
+            "quantity_btc": 12.6719,
+            "notional_usdt": 1323584.2
+          },
+          {
+            "level": 21,
+            "side": "ask",
+            "price": 104460.0,
+            "quantity_btc": 10.3627,
+            "notional_usdt": 1082491.02
+          },
+          {
+            "level": 22,
+            "side": "ask",
+            "price": 104470.0,
+            "quantity_btc": 13.8807,
+            "notional_usdt": 1450120.13
+          },
+          {
+            "level": 23,
+            "side": "ask",
+            "price": 104480.0,
+            "quantity_btc": 17.2406,
+            "notional_usdt": 1801300.86
+          },
+          {
+            "level": 24,
+            "side": "ask",
+            "price": 104490.0,
+            "quantity_btc": 6.8789,
+            "notional_usdt": 718776.96
+          },
+          {
+            "level": 25,
+            "side": "ask",
+            "price": 104500.0,
+            "quantity_btc": 1.1308,
+            "notional_usdt": 118165.21
+          },
+          {
+            "level": 26,
+            "side": "ask",
+            "price": 104510.0,
+            "quantity_btc": 8.9278,
+            "notional_usdt": 933044.99
+          },
+          {
+            "level": 27,
+            "side": "ask",
+            "price": 104520.0,
+            "quantity_btc": 17.4114,
+            "notional_usdt": 1819840.22
+          },
+          {
+            "level": 28,
+            "side": "ask",
+            "price": 104530.0,
+            "quantity_btc": 13.1891,
+            "notional_usdt": 1378651.53
+          },
+          {
+            "level": 29,
+            "side": "ask",
+            "price": 104540.0,
+            "quantity_btc": 3.4036,
+            "notional_usdt": 355815.11
+          },
+          {
+            "level": 30,
+            "side": "ask",
+            "price": 104550.0,
+            "quantity_btc": 17.8439,
+            "notional_usdt": 1865579.7
+          },
+          {
+            "level": 31,
+            "side": "ask",
+            "price": 104560.0,
+            "quantity_btc": 5.477,
+            "notional_usdt": 572672.12
+          },
+          {
+            "level": 32,
+            "side": "ask",
+            "price": 104570.0,
+            "quantity_btc": 0.7366,
+            "notional_usdt": 77023.85
+          },
+          {
+            "level": 33,
+            "side": "ask",
+            "price": 104580.0,
+            "quantity_btc": 5.3664,
+            "notional_usdt": 561213.46
+          },
+          {
+            "level": 34,
+            "side": "ask",
+            "price": 104590.0,
+            "quantity_btc": 16.9777,
+            "notional_usdt": 1775694.94
+          },
+          {
+            "level": 35,
+            "side": "ask",
+            "price": 104600.0,
+            "quantity_btc": 17.0456,
+            "notional_usdt": 1782967.91
+          },
+          {
+            "level": 36,
+            "side": "ask",
+            "price": 104610.0,
+            "quantity_btc": 3.3124,
+            "notional_usdt": 346514.3
+          },
+          {
+            "level": 37,
+            "side": "ask",
+            "price": 104620.0,
+            "quantity_btc": 9.9708,
+            "notional_usdt": 1043150.04
+          },
+          {
+            "level": 38,
+            "side": "ask",
+            "price": 104630.0,
+            "quantity_btc": 9.1926,
+            "notional_usdt": 961825.15
+          },
+          {
+            "level": 39,
+            "side": "ask",
+            "price": 104640.0,
+            "quantity_btc": 16.0707,
+            "notional_usdt": 1681636.17
+          },
+          {
+            "level": 40,
+            "side": "ask",
+            "price": 104650.0,
+            "quantity_btc": 5.8015,
+            "notional_usdt": 607123.82
+          },
+          {
+            "level": 41,
+            "side": "ask",
+            "price": 104660.0,
+            "quantity_btc": 2.5223,
+            "notional_usdt": 263986.46
+          },
+          {
+            "level": 42,
+            "side": "ask",
+            "price": 104670.0,
+            "quantity_btc": 14.9779,
+            "notional_usdt": 1567740.37
+          },
+          {
+            "level": 43,
+            "side": "ask",
+            "price": 104680.0,
+            "quantity_btc": 10.9893,
+            "notional_usdt": 1150355.88
+          },
+          {
+            "level": 44,
+            "side": "ask",
+            "price": 104690.0,
+            "quantity_btc": 5.818,
+            "notional_usdt": 609086.98
+          },
+          {
+            "level": 45,
+            "side": "ask",
+            "price": 104700.0,
+            "quantity_btc": 7.0813,
+            "notional_usdt": 741407.81
+          },
+          {
+            "level": 46,
+            "side": "ask",
+            "price": 104710.0,
+            "quantity_btc": 1.7557,
+            "notional_usdt": 183836.5
+          },
+          {
+            "level": 47,
+            "side": "ask",
+            "price": 104720.0,
+            "quantity_btc": 2.7447,
+            "notional_usdt": 287426.09
+          },
+          {
+            "level": 48,
+            "side": "ask",
+            "price": 104730.0,
+            "quantity_btc": 8.2156,
+            "notional_usdt": 860421.7
+          },
+          {
+            "level": 49,
+            "side": "ask",
+            "price": 104740.0,
+            "quantity_btc": 15.1379,
+            "notional_usdt": 1585543.92
+          },
+          {
+            "level": 50,
+            "side": "ask",
+            "price": 104750.0,
+            "quantity_btc": 7.1922,
+            "notional_usdt": 753383.96
+          },
+          {
+            "level": 51,
+            "side": "ask",
+            "price": 104760.0,
+            "quantity_btc": 0.2485,
+            "notional_usdt": 26031.47
+          },
+          {
+            "level": 52,
+            "side": "ask",
+            "price": 104770.0,
+            "quantity_btc": 3.2219,
+            "notional_usdt": 337554.07
+          },
+          {
+            "level": 53,
+            "side": "ask",
+            "price": 104780.0,
+            "quantity_btc": 10.4854,
+            "notional_usdt": 1098655.06
+          },
+          {
+            "level": 54,
+            "side": "ask",
+            "price": 104790.0,
+            "quantity_btc": 17.7916,
+            "notional_usdt": 1864383.76
+          },
+          {
+            "level": 55,
+            "side": "ask",
+            "price": 104800.0,
+            "quantity_btc": 14.4202,
+            "notional_usdt": 1511234.92
+          },
+          {
+            "level": 56,
+            "side": "ask",
+            "price": 104810.0,
+            "quantity_btc": 4.9999,
+            "notional_usdt": 524038.48
+          },
+          {
+            "level": 57,
+            "side": "ask",
+            "price": 104820.0,
+            "quantity_btc": 8.9913,
+            "notional_usdt": 942469.89
+          },
+          {
+            "level": 58,
+            "side": "ask",
+            "price": 104830.0,
+            "quantity_btc": 1.3446,
+            "notional_usdt": 140956.79
+          },
+          {
+            "level": 59,
+            "side": "ask",
+            "price": 104840.0,
+            "quantity_btc": 15.601,
+            "notional_usdt": 1635612.05
+          },
+          {
+            "level": 60,
+            "side": "ask",
+            "price": 104850.0,
+            "quantity_btc": 11.232,
+            "notional_usdt": 1177670.06
+          },
+          {
+            "level": 61,
+            "side": "ask",
+            "price": 104860.0,
+            "quantity_btc": 6.0559,
+            "notional_usdt": 635025.74
+          },
+          {
+            "level": 62,
+            "side": "ask",
+            "price": 104870.0,
+            "quantity_btc": 5.6067,
+            "notional_usdt": 587975.5
+          },
+          {
+            "level": 63,
+            "side": "ask",
+            "price": 104880.0,
+            "quantity_btc": 14.821,
+            "notional_usdt": 1554422.41
+          },
+          {
+            "level": 64,
+            "side": "ask",
+            "price": 104890.0,
+            "quantity_btc": 15.692,
+            "notional_usdt": 1645929.12
+          },
+          {
+            "level": 65,
+            "side": "ask",
+            "price": 104900.0,
+            "quantity_btc": 1.3948,
+            "notional_usdt": 146316.66
+          },
+          {
+            "level": 66,
+            "side": "ask",
+            "price": 104910.0,
+            "quantity_btc": 12.7352,
+            "notional_usdt": 1336046.59
+          },
+          {
+            "level": 67,
+            "side": "ask",
+            "price": 104920.0,
+            "quantity_btc": 1.9695,
+            "notional_usdt": 206641.89
+          },
+          {
+            "level": 68,
+            "side": "ask",
+            "price": 104930.0,
+            "quantity_btc": 7.0104,
+            "notional_usdt": 735604.57
+          },
+          {
+            "level": 69,
+            "side": "ask",
+            "price": 104940.0,
+            "quantity_btc": 7.8519,
+            "notional_usdt": 823975.96
+          },
+          {
+            "level": 70,
+            "side": "ask",
+            "price": 104950.0,
+            "quantity_btc": 1.609,
+            "notional_usdt": 168863.12
+          },
+          {
+            "level": 71,
+            "side": "ask",
+            "price": 104960.0,
+            "quantity_btc": 9.5839,
+            "notional_usdt": 1005929.4
+          },
+          {
+            "level": 72,
+            "side": "ask",
+            "price": 104970.0,
+            "quantity_btc": 16.2026,
+            "notional_usdt": 1700784.11
+          },
+          {
+            "level": 73,
+            "side": "ask",
+            "price": 104980.0,
+            "quantity_btc": 6.1707,
+            "notional_usdt": 647802.03
+          },
+          {
+            "level": 74,
+            "side": "ask",
+            "price": 104990.0,
+            "quantity_btc": 8.8614,
+            "notional_usdt": 930355.18
+          },
+          {
+            "level": 75,
+            "side": "ask",
+            "price": 105000.0,
+            "quantity_btc": 9.0136,
+            "notional_usdt": 946425.75
+          },
+          {
+            "level": 76,
+            "side": "ask",
+            "price": 105010.0,
+            "quantity_btc": 5.0504,
+            "notional_usdt": 530337.8
+          },
+          {
+            "level": 77,
+            "side": "ask",
+            "price": 105020.0,
+            "quantity_btc": 6.1708,
+            "notional_usdt": 648058.13
+          },
+          {
+            "level": 78,
+            "side": "ask",
+            "price": 105030.0,
+            "quantity_btc": 12.4343,
+            "notional_usdt": 1305977.91
+          },
+          {
+            "level": 79,
+            "side": "ask",
+            "price": 105040.0,
+            "quantity_btc": 13.6547,
+            "notional_usdt": 1434285.8
+          },
+          {
+            "level": 80,
+            "side": "ask",
+            "price": 105050.0,
+            "quantity_btc": 8.3805,
+            "notional_usdt": 880366.7
+          },
+          {
+            "level": 81,
+            "side": "ask",
+            "price": 105060.0,
+            "quantity_btc": 8.214,
+            "notional_usdt": 862962.04
+          },
+          {
+            "level": 82,
+            "side": "ask",
+            "price": 105070.0,
+            "quantity_btc": 2.2932,
+            "notional_usdt": 240947.19
+          },
+          {
+            "level": 83,
+            "side": "ask",
+            "price": 105080.0,
+            "quantity_btc": 16.5574,
+            "notional_usdt": 1739848.19
+          },
+          {
+            "level": 84,
+            "side": "ask",
+            "price": 105090.0,
+            "quantity_btc": 4.5952,
+            "notional_usdt": 482910.77
+          },
+          {
+            "level": 85,
+            "side": "ask",
+            "price": 105100.0,
+            "quantity_btc": 12.7816,
+            "notional_usdt": 1343349.87
+          },
+          {
+            "level": 86,
+            "side": "ask",
+            "price": 105110.0,
+            "quantity_btc": 7.3634,
+            "notional_usdt": 773971.56
+          },
+          {
+            "level": 87,
+            "side": "ask",
+            "price": 105120.0,
+            "quantity_btc": 0.8827,
+            "notional_usdt": 92789.53
+          },
+          {
+            "level": 88,
+            "side": "ask",
+            "price": 105130.0,
+            "quantity_btc": 4.0428,
+            "notional_usdt": 425022.47
+          },
+          {
+            "level": 89,
+            "side": "ask",
+            "price": 105140.0,
+            "quantity_btc": 16.3593,
+            "notional_usdt": 1720018.05
+          },
+          {
+            "level": 90,
+            "side": "ask",
+            "price": 105150.0,
+            "quantity_btc": 2.6218,
+            "notional_usdt": 275682.17
+          },
+          {
+            "level": 91,
+            "side": "ask",
+            "price": 105160.0,
+            "quantity_btc": 16.6836,
+            "notional_usdt": 1754445.86
+          },
+          {
+            "level": 92,
+            "side": "ask",
+            "price": 105170.0,
+            "quantity_btc": 13.6569,
+            "notional_usdt": 1436296.1
+          },
+          {
+            "level": 93,
+            "side": "ask",
+            "price": 105180.0,
+            "quantity_btc": 5.6226,
+            "notional_usdt": 591381.48
+          },
+          {
+            "level": 94,
+            "side": "ask",
+            "price": 105190.0,
+            "quantity_btc": 0.9531,
+            "notional_usdt": 100257.47
+          },
+          {
+            "level": 95,
+            "side": "ask",
+            "price": 105200.0,
+            "quantity_btc": 15.3153,
+            "notional_usdt": 1611173.25
+          },
+          {
+            "level": 96,
+            "side": "ask",
+            "price": 105210.0,
+            "quantity_btc": 1.8819,
+            "notional_usdt": 197992.62
+          },
+          {
+            "level": 97,
+            "side": "ask",
+            "price": 105220.0,
+            "quantity_btc": 2.9473,
+            "notional_usdt": 310110.88
+          },
+          {
+            "level": 98,
+            "side": "ask",
+            "price": 105230.0,
+            "quantity_btc": 0.7959,
+            "notional_usdt": 83757.47
+          },
+          {
+            "level": 99,
+            "side": "ask",
+            "price": 105240.0,
+            "quantity_btc": 6.3342,
+            "notional_usdt": 666607.93
+          },
+          {
+            "level": 100,
+            "side": "ask",
+            "price": 105250.0,
+            "quantity_btc": 1.7168,
+            "notional_usdt": 180696.53
+          }
+        ],
+        "summary": {
+          "kind": "orderbook_conventional",
+          "rows": 200,
+          "bid_levels": 100,
+          "ask_levels": 100,
+          "best_bid": 104240.0,
+          "best_ask": 104260.0,
+          "spread": 20.0,
+          "timestamp": "2026-06-20T12:00:00+00:00"
+        }
+      },
+      "decision": {
+        "data_type": "orderbook_conventional",
+        "canonical_type": "book_snapshot",
+        "apply_technical_indicators": false,
+        "apply_statistical_metrics": true,
+        "apply_microstructure_metrics": true,
+        "apply_patterns": true,
+        "targets": {
+          "hmi": true,
+          "ml": true,
+          "advanced_algorithms": true
+        },
+        "notes": [
+          "Order book snapshot uses microstructure metrics, liquidity patterns, and ML features."
+        ]
+      },
+      "math": {
+        "technical": {},
+        "statistical": {
+          "bid_notional_summary": {
+            "mean": 899283.8633000001,
+            "std": 510992.7045667956,
+            "var": 261113544120.48846,
+            "skewness": -0.0008890383394656914,
+            "kurtosis": -0.9604094062005251,
+            "min": 20158.98,
+            "max": 1827191.15,
+            "last": 480438.2
+          },
+          "ask_notional_summary": {
+            "mean": 885508.9965,
+            "std": 552153.8187441748,
+            "var": 304873839553.77496,
+            "skewness": 0.21945424119529067,
+            "kurtosis": -1.1793417666064838,
+            "min": 26031.47,
+            "max": 1865579.7,
+            "last": 180696.53
+          }
+        },
+        "microstructure": {
+          "best_bid": 104240.0,
+          "best_ask": 104260.0,
+          "spread_usdt": 20.0,
+          "spread_bps": 1.9184652278177456,
+          "mid_price": 104250.0,
+          "weighted_mid_price": 104257.67978873673,
+          "total_bid_notional_usdt": 89928386.33000001,
+          "total_ask_notional_usdt": 88550899.65,
+          "orderbook_imbalance_total": 0.0077179078369596634,
+          "bid_notional_top_5": 4159510.7899999996,
+          "ask_notional_top_5": 2706193.45,
+          "depth_imbalance_top_5": 0.21167782491020898,
+          "bid_notional_top_10": 8400066.389999999,
+          "ask_notional_top_10": 7840862.739999999,
+          "depth_imbalance_top_10": 0.0344317523661283,
+          "bid_notional_top_20": 17426119.38,
+          "ask_notional_top_20": 17594150.139999997,
+          "depth_imbalance_top_20": -0.004798100137522812,
+          "bid_wall_score": 0.5172158761830641,
+          "ask_wall_score": 0.4827841238169358
+        },
+        "feature_snapshot": {
+          "best_bid": 104240.0,
+          "best_ask": 104260.0,
+          "spread_usdt": 20.0,
+          "spread_bps": 1.9184652278177456,
+          "mid_price": 104250.0,
+          "weighted_mid_price": 104257.67978873673,
+          "total_bid_notional_usdt": 89928386.33000001,
+          "total_ask_notional_usdt": 88550899.65,
+          "orderbook_imbalance_total": 0.0077179078369596634,
+          "bid_notional_top_5": 4159510.7899999996,
+          "ask_notional_top_5": 2706193.45,
+          "depth_imbalance_top_5": 0.21167782491020898,
+          "bid_notional_top_10": 8400066.389999999,
+          "ask_notional_top_10": 7840862.739999999,
+          "depth_imbalance_top_10": 0.0344317523661283,
+          "bid_notional_top_20": 17426119.38,
+          "ask_notional_top_20": 17594150.139999997,
+          "depth_imbalance_top_20": -0.004798100137522812,
+          "bid_wall_score": 0.5172158761830641,
+          "ask_wall_score": 0.4827841238169358,
+          "bid_notional_mean": 899283.8633000001,
+          "bid_notional_std": 510992.7045667956,
+          "bid_notional_var": 261113544120.48846,
+          "bid_notional_skewness": -0.0008890383394656914,
+          "bid_notional_kurtosis": -0.9604094062005251,
+          "bid_notional_min": 20158.98,
+          "bid_notional_max": 1827191.15,
+          "bid_notional_last": 480438.2,
+          "ask_notional_mean": 885508.9965,
+          "ask_notional_std": 552153.8187441748,
+          "ask_notional_var": 304873839553.77496,
+          "ask_notional_skewness": 0.21945424119529067,
+          "ask_notional_kurtosis": -1.1793417666064838,
+          "ask_notional_min": 26031.47,
+          "ask_notional_max": 1865579.7,
+          "ask_notional_last": 180696.53
+        }
+      },
+      "patterns": {
+        "liquidity_patterns": []
+      },
+      "routes": {
+        "hmi": {
+          "enabled": true,
+          "chart_type": "orderbook_depth",
+          "panels": [
+            "orderbook_imbalance_total",
+            "spread_bps"
+          ],
+          "overlays": [
+            "bid_wall_score",
+            "ask_wall_score"
+          ]
+        },
+        "ml": {
+          "enabled": true,
+          "include_feature_vector": true,
+          "include_patterns": true
+        },
+        "advanced_algorithms": {
+          "enabled": true,
+          "preserve_time_series": false,
+          "preserve_event_sequence": false,
+          "suggested_modules": [
+            "liquidity_map",
+            "orderbook_pressure"
+          ]
+        }
+      },
+      "family_key": "liquidity_microstructure",
+      "output_shape": "book_snapshot",
+      "output_filename": "book_snapshot.json",
+      "output_file_key": "liquidity_microstructure/book_snapshot",
+      "is_metadata": false,
+      "family_output_path": "data_output\\families\\liquidity_microstructure\\book_snapshot.json"
+    }
+  ],
+  "ml_feature_matrix_preview": [
+    {
+      "source_name": "btc_order_book_conventional_200_levels.json",
+      "data_type": "orderbook_conventional",
+      "symbol": "BTCUSDT",
+      "timeframe": null,
+      "best_bid": 104240.0,
+      "best_ask": 104260.0,
+      "spread_usdt": 20.0,
+      "spread_bps": 1.9184652278177456,
+      "mid_price": 104250.0,
+      "weighted_mid_price": 104257.67978873673,
+      "total_bid_notional_usdt": 89928386.33000001,
+      "total_ask_notional_usdt": 88550899.65,
+      "orderbook_imbalance_total": 0.0077179078369596634,
+      "bid_notional_top_5": 4159510.7899999996,
+      "ask_notional_top_5": 2706193.45,
+      "depth_imbalance_top_5": 0.21167782491020898,
+      "bid_notional_top_10": 8400066.389999999,
+      "ask_notional_top_10": 7840862.739999999,
+      "depth_imbalance_top_10": 0.0344317523661283,
+      "bid_notional_top_20": 17426119.38,
+      "ask_notional_top_20": 17594150.139999997,
+      "depth_imbalance_top_20": -0.004798100137522812,
+      "bid_wall_score": 0.5172158761830641,
+      "ask_wall_score": 0.4827841238169358,
+      "bid_notional_mean": 899283.8633000001,
+      "bid_notional_std": 510992.7045667956,
+      "bid_notional_var": 261113544120.48846,
+      "bid_notional_skewness": -0.0008890383394656914,
+      "bid_notional_kurtosis": -0.9604094062005251,
+      "bid_notional_min": 20158.98,
+      "bid_notional_max": 1827191.15,
+      "bid_notional_last": 480438.2,
+      "ask_notional_mean": 885508.9965,
+      "ask_notional_std": 552153.8187441748,
+      "ask_notional_var": 304873839553.77496,
+      "ask_notional_skewness": 0.21945424119529067,
+      "ask_notional_kurtosis": -1.1793417666064838,
+      "ask_notional_min": 26031.47,
+      "ask_notional_max": 1865579.7,
+      "ask_notional_last": 180696.53
+    }
+  ]
+}

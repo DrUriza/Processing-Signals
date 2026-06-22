@@ -1,0 +1,106 @@
+{
+  "pipeline": "Processing-Signals MainPipeline",
+  "version": "0.1.0",
+  "output_shape": "manifest",
+  "records_processed": 1,
+  "blocks": [
+    {
+      "source_name": "manifest_v2.json",
+      "detected": {
+        "source_name": "manifest_v2.json",
+        "data_type": "manifest",
+        "canonical_type": "metadata",
+        "confidence": "high",
+        "symbol": null,
+        "timeframe": null,
+        "asset": null,
+        "provider_source": null,
+        "timestamp_utc": null,
+        "metadata": {}
+      },
+      "normalized": {
+        "kind": "manifest",
+        "summary": {
+          "candlestick_files": 4,
+          "candlestick_records_per_file": 500,
+          "total_candlestick_records": 2000,
+          "conventional_order_book_records": 200,
+          "large_trades_records": 100,
+          "whale_orders_records": 100,
+          "total_order_book_records": 400
+        },
+        "raw": {
+          "project": "BTC Processing Demo JSONs V2",
+          "created_at_utc": "2026-06-20T12:00:00+00:00",
+          "description": "Synthetic JSON files for BTC processing layer: 500 candle records per timeframe and robust order book snapshots.",
+          "summary": {
+            "candlestick_files": 4,
+            "candlestick_records_per_file": 500,
+            "total_candlestick_records": 2000,
+            "conventional_order_book_records": 200,
+            "large_trades_records": 100,
+            "whale_orders_records": 100,
+            "total_order_book_records": 400
+          },
+          "files": [
+            "btc_candles_1m_500.json",
+            "btc_candles_5m_500.json",
+            "btc_candles_15m_500.json",
+            "btc_candles_4h_500.json",
+            "btc_order_book_conventional_200_levels.json",
+            "btc_order_book_large_trades_100_70buy_30sell.json",
+            "btc_order_book_whale_orders_100_70buy_30sell.json"
+          ]
+        }
+      },
+      "decision": {
+        "data_type": "manifest",
+        "canonical_type": "metadata",
+        "apply_technical_indicators": false,
+        "apply_statistical_metrics": false,
+        "apply_microstructure_metrics": false,
+        "apply_patterns": false,
+        "targets": {
+          "hmi": true,
+          "ml": false,
+          "advanced_algorithms": false
+        },
+        "notes": [
+          "Manifest is metadata only; no indicators."
+        ]
+      },
+      "math": {
+        "technical": {},
+        "statistical": {},
+        "microstructure": {},
+        "feature_snapshot": {}
+      },
+      "patterns": {},
+      "routes": {
+        "hmi": {
+          "enabled": true,
+          "chart_type": "metadata_summary",
+          "panels": [],
+          "overlays": []
+        },
+        "ml": {
+          "enabled": false,
+          "include_feature_vector": false,
+          "include_patterns": false
+        },
+        "advanced_algorithms": {
+          "enabled": false,
+          "preserve_time_series": false,
+          "preserve_event_sequence": false,
+          "suggested_modules": []
+        }
+      },
+      "family_key": "metadata",
+      "output_shape": "manifest",
+      "output_filename": "manifest.json",
+      "output_file_key": "metadata/manifest",
+      "is_metadata": true,
+      "family_output_path": "data_output\\metadata\\manifest.json"
+    }
+  ]
+}

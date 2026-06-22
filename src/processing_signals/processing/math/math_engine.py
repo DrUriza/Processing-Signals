@@ -4,14 +4,14 @@ from typing import Any
 
 import pandas as pd
 
-from signal_analysis.processing_math.statistics import (
+from processing_signals.processing.math.statistics import (
     rolling_distribution_features,
     safe_returns,
     summarize_series,
     last_valid_dict,
 )
-from signal_analysis.processing_math.technical_indicators import compute_ohlcv_indicators
-from signal_analysis.processing_math.microstructure import orderbook_metrics, event_flow_metrics, wall_score_from_orderbook
+from processing_signals.processing.math.technical_indicators import compute_ohlcv_indicators
+from processing_signals.processing.math.microstructure import orderbook_metrics, event_flow_metrics, wall_score_from_orderbook
 
 
 class ProcessingMathEngine:
