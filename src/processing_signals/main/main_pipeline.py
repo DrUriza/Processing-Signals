@@ -59,6 +59,7 @@ class MainPipeline:
 
         payload = self.output_builder.build(blocks)
         payload["family_outputs"] = family_outputs_index
+        payload["metadata_outputs"] = family_outputs_index.get("metadata", [])
         self.output_builder.write_json(payload, self.output_path)
         return payload
 

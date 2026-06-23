@@ -15,16 +15,16 @@ def resolve_output_family(block: dict[str, Any]) -> dict[str, str]:
         return _family("prices_ohlcv", "candlestick", "candlestick.json")
 
     if data_type == "orderbook_conventional":
-        return _family("liquidity_microstructure", "book_snapshot", "book_snapshot.json")
+        return _family("liquidity_microstructure", "conventional_orderbook", "conventional_orderbook.json")
 
     if data_type == "orderbook_large_trades":
-        return _family("liquidity_microstructure", "large_trades_event_list", "large_trades_event_list.json")
+        return _family("liquidity_microstructure", "large_trades_orderbook", "large_trades_orderbook.json")
 
     if data_type == "orderbook_whale_orders":
         return _family(
             "liquidity_microstructure",
-            "whale_orders_event_list_with_ttl",
-            "whale_orders_event_list_with_ttl.json",
+            "whale_orders_orderbook",
+            "whale_orders_orderbook.json",
         )
 
     if data_type == "manifest":
@@ -53,8 +53,8 @@ def resolve_output_family(block: dict[str, Any]) -> dict[str, str]:
     if "whale" in data_type:
         return _family(
             "liquidity_microstructure",
-            "whale_orders_event_list_with_ttl",
-            "whale_orders_event_list_with_ttl.json",
+            "whale_orders_orderbook",
+            "whale_orders_orderbook.json",
         )
 
     return _family("unknown", "unknown", "unknown.json")

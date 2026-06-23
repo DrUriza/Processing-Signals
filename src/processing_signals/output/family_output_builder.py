@@ -55,17 +55,32 @@ class FamilyOutputBuilder:
             if family_key not in self.OFFICIAL_FAMILIES:
                 continue
 
-            output_filename = block.get("output_filename", f"{output_shape}.json")
-            output_path = self.output_dir / family_key / output_filename
-            block["family_output_path"] = str(output_path)
-            grouped[(family_key, output_shape)].append(block)
+            if family_key == "liquidity_microstructure":
+                block["family_output_paths"] = []
+                for variant_shape, variant_filename in self._liquidity_variants(block):
+                    output_path = self.output_dir / family_key / variant_filename
+                    block["family_output_paths"].append(str(output_path))
+                    grouped[(family_key, variant_shape)].append(block)
+                block["family_output_path"] = block["family_output_paths"][0] if block["family_output_paths"] else ""
+            elif family_key == "prices_ohlcv":
+                block["family_output_paths"] = []
+                for variant_shape, variant_filename in self._prices_variants(block):
+                    output_path = self.output_dir / family_key / variant_filename
+                    block["family_output_paths"].append(str(output_path))
+                    grouped[(family_key, variant_shape)].append(block)
+                block["family_output_path"] = block["family_output_paths"][0] if block["family_output_paths"] else ""
+            else:
+                output_filename = block.get("output_filename", f"{output_shape}.json")
+                output_path = self.output_dir / family_key / output_filename
+                block["family_output_path"] = str(output_path)
+                grouped[(family_key, output_shape)].append(block)
 
         family_entries: dict[str, list[dict[str, Any]]] = defaultdict(list)
 
         for (family_key, output_shape), family_blocks in sorted(grouped.items()):
             family_dir = self.output_dir / family_key
             family_dir.mkdir(parents=True, exist_ok=True)
-            output_filename = family_blocks[0].get("output_filename", f"{output_shape}.json")
+            output_filename = f"{output_shape}.json"
             output_path = family_dir / output_filename
             payload = self._build_family_payload(family_key, output_shape, family_blocks)
             self._write_json(payload, output_path)
@@ -76,8 +91,6 @@ class FamilyOutputBuilder:
                     "records_processed": len(family_blocks),
                 }
             )
-
-        self._write_liquidity_candlestick_derived(grouped, family_entries)
 
         return {
             "families_root": str(self.output_dir),
@@ -124,41 +137,29 @@ class FamilyOutputBuilder:
             "blocks": serializable_blocks,
         }
 
-    def _write_liquidity_candlestick_derived(
-        self,
-        grouped: dict[tuple[str, str], list[dict[str, Any]]],
-        family_entries: dict[str, list[dict[str, Any]]],
-    ) -> None:
-        source_shapes = [
-            "book_snapshot",
-            "large_trades_event_list",
-            "whale_orders_event_list_with_ttl",
-        ]
-        has_liquidity_sources = any(("liquidity_microstructure", shape) in grouped for shape in source_shapes)
-        if not has_liquidity_sources:
-            return
-
-        family_dir = self.output_dir / "liquidity_microstructure"
-        family_dir.mkdir(parents=True, exist_ok=True)
-        output_path = family_dir / "candlestick_derived.json"
-        payload = {
-            "pipeline": self.pipeline_name,
-            "version": self.version,
-            "family_key": "liquidity_microstructure",
-            "output_shape": "candlestick_derived",
-            "records_processed": 0,
-            "status": "pending_builder",
-            "source_outputs": source_shapes,
-            "blocks": [],
+    @staticmethod
+    def _liquidity_variants(block: dict[str, Any]) -> list[tuple[str, str]]:
+        data_type = block.get("detected", {}).get("data_type")
+        subtype_by_data_type = {
+            "orderbook_conventional": "conventional",
+            "orderbook_large_trades": "large_trades",
+            "orderbook_whale_orders": "whale_orders",
         }
-        self._write_json(payload, output_path)
-        family_entries["liquidity_microstructure"].append(
-            {
-                "output_shape": "candlestick_derived",
-                "path": str(output_path),
-                "records_processed": 0,
-            }
-        )
+        subtype = subtype_by_data_type.get(data_type)
+        if subtype is None:
+            return []
+
+        shapes = ["orderbook", "time_series", "event_list", "bars"]
+        return [(f"{subtype}_{shape}", f"{subtype}_{shape}.json") for shape in shapes]
+
+    @staticmethod
+    def _prices_variants(block: dict[str, Any]) -> list[tuple[str, str]]:
+        if block.get("detected", {}).get("data_type") != "candlestick":
+            return []
+        return [
+            ("candlestick", "candlestick.json"),
+            ("time_series", "time_series.json"),
+        ]
 
     @staticmethod
     def _write_json(payload: dict[str, Any], output_path: Path) -> None:
