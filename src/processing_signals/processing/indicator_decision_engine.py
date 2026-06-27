@@ -2,6 +2,10 @@ from __future__ import annotations
 
 from typing import Any
 
+import pandas as pd
+
+from processing_signals.processing.math.statistics import coerce_numeric_series
+
 
 class IndicatorDecisionEngine:
     """
@@ -85,7 +89,7 @@ class IndicatorDecisionEngine:
             base["targets"]["hmi"] = True
             base["notes"].append("Manifest is metadata only; no indicators.")
 
-        elif data_type in {"mining_network_health", "onchain_holder_behavior"}:
+        elif data_type in {"mining_network_health", "onchain_holder_behavior"} or self._has_numeric_records(normalized):
             base.update(
                 {
                     "apply_technical_indicators": False,
@@ -95,9 +99,36 @@ class IndicatorDecisionEngine:
                     "targets": {"hmi": True, "ml": True, "advanced_algorithms": True},
                 }
             )
-            base["notes"].append("Network/on-chain metrics use statistical features, regimes, HMI, ML, and advanced routes.")
+            base["notes"].append("No classic technical indicators applied; statistical metrics enabled.")
 
         else:
             base["notes"].append("Unknown type; no indicators applied.")
 
         return base
+
+    @staticmethod
+    def _has_numeric_records(normalized: dict[str, Any]) -> bool:
+        for key in ("dataframe", "events", "bids", "asks"):
+            value = normalized.get(key)
+            if not isinstance(value, pd.DataFrame) or value.empty:
+                continue
+            for column in value.columns:
+                if str(column).lower() in {
+                    "timestamp",
+                    "timestamp_utc",
+                    "symbol",
+                    "timeframe",
+                    "family_key",
+                    "data_type",
+                    "source_subtype",
+                    "provider",
+                    "exchange",
+                    "asset",
+                    "base_asset",
+                    "quote_asset",
+                }:
+                    continue
+                numeric = coerce_numeric_series(value, column)
+                if numeric.notna().any():
+                    return True
+        return False

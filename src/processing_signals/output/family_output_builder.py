@@ -149,7 +149,7 @@ class FamilyOutputBuilder:
         blocks: list[dict[str, Any]],
     ) -> dict[str, Any]:
         serializable_blocks = [self._to_json_safe(block) for block in blocks]
-        return {
+        payload = {
             "pipeline": self.pipeline_name,
             "version": self.version,
             "family_key": family_key,
@@ -161,6 +161,9 @@ class FamilyOutputBuilder:
             "blocks": serializable_blocks,
             "ml_feature_matrix_preview": self._build_ml_feature_matrix_preview(serializable_blocks),
         }
+        if output_shape == "regimes":
+            payload["statistical_regimes_summary"] = self._build_statistical_regimes_summary(serializable_blocks)
+        return payload
 
     def _build_metadata_payload(self, output_shape: str, blocks: list[dict[str, Any]]) -> dict[str, Any]:
         serializable_blocks = [self._to_json_safe(block) for block in blocks]
@@ -324,4 +327,25 @@ class FamilyOutputBuilder:
             }
             row.update(feature_snapshot)
             rows.append(row)
+        return rows
+
+    @staticmethod
+    def _build_statistical_regimes_summary(blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        rows: list[dict[str, Any]] = []
+        for block in blocks:
+            regimes = block.get("math", {}).get("statistical_regimes", {})
+            if not regimes:
+                continue
+            rows.append(
+                {
+                    "source_name": block.get("source_name"),
+                    "data_type": block.get("detected", {}).get("data_type"),
+                    "symbol": block.get("detected", {}).get("symbol"),
+                    "timeframe": block.get("detected", {}).get("timeframe"),
+                    "numeric_columns": regimes.get("numeric_columns", []),
+                    "windows": regimes.get("windows", []),
+                    "last": regimes.get("last", {}),
+                    "last_regimes": regimes.get("last_regimes", {}),
+                }
+            )
         return rows

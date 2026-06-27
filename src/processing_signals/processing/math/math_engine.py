@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Any
+import warnings
 
 import pandas as pd
 
@@ -40,21 +41,28 @@ class ProcessingMathEngine:
 
         frame = self._frame_for_statistics(normalized)
         if not frame.empty:
-            statistics = compute_block_statistics(
-                frame,
-                windows=self.DEFAULT_WINDOWS,
-                excluded_columns=EXCLUDED_COLUMNS,
-            )
-            regimes = compute_statistical_regimes(
-                frame,
-                windows=self.DEFAULT_WINDOWS,
-                excluded_columns=EXCLUDED_COLUMNS,
-            )
-            result["statistics"] = statistics
-            result["statistical_regimes"] = regimes
-            # Keep the legacy key for compatibility while introducing math.statistics.
-            result["statistical"] = statistics
-            result["feature_snapshot"].update(statistics.get("last", {}))
+            try:
+                with warnings.catch_warnings(record=True) as caught:
+                    warnings.simplefilter("always")
+                    statistics = compute_block_statistics(
+                        frame,
+                        windows=self.DEFAULT_WINDOWS,
+                        excluded_columns=EXCLUDED_COLUMNS,
+                    )
+                    regimes = compute_statistical_regimes(
+                        frame,
+                        windows=self.DEFAULT_WINDOWS,
+                        excluded_columns=EXCLUDED_COLUMNS,
+                    )
+
+                result["statistics"] = statistics
+                result["statistical_regimes"] = regimes
+                result["feature_snapshot"].update(statistics.get("last", {}))
+                result["warnings"].extend(
+                    sorted({f"{warning.category.__name__}: {warning.message}" for warning in caught})
+                )
+            except Exception as exc:
+                result["warnings"].append(f"statistics_failed: {type(exc).__name__}: {exc}")
 
         return result
 
@@ -62,11 +70,11 @@ class ProcessingMathEngine:
     def _base_result() -> dict[str, Any]:
         return {
             "technical": {},
-            "statistical": {},
             "statistics": {},
             "statistical_regimes": {},
             "microstructure": {},
             "feature_snapshot": {},
+            "warnings": [],
         }
 
     def _compute_candlestick(self, normalized: dict[str, Any], decision: dict[str, Any]) -> dict[str, Any]:
@@ -103,10 +111,6 @@ class ProcessingMathEngine:
 
         return {
             "technical": {},
-            "statistical": {
-                "bid_notional_summary": bid_notional_stats,
-                "ask_notional_summary": ask_notional_stats,
-            },
             "statistics": {},
             "statistical_regimes": {},
             "microstructure": micro,
@@ -128,7 +132,6 @@ class ProcessingMathEngine:
 
         return {
             "technical": {},
-            "statistical": stats,
             "statistics": {},
             "statistical_regimes": {},
             "microstructure": flow,

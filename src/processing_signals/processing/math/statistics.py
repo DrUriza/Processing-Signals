@@ -16,6 +16,9 @@ EXCLUDED_COLUMNS: set[str] = {
     "provider",
     "exchange",
     "source_subtype",
+    "asset",
+    "base_asset",
+    "quote_asset",
 }
 
 
@@ -39,11 +42,22 @@ def detect_numeric_columns(df: pd.DataFrame, excluded_columns: set[str] | None =
     for column in df.columns:
         if str(column).lower() in excluded:
             continue
-        numeric = pd.to_numeric(df[column], errors="coerce")
+        numeric = coerce_numeric_series(df, column)
         if numeric.notna().any():
             columns.append(column)
 
     return columns
+
+
+def coerce_numeric_series(df: pd.DataFrame, column: Any) -> pd.Series:
+    values = df.loc[:, df.columns == column]
+    if isinstance(values, pd.Series):
+        raw = values
+    elif values.shape[1] == 1:
+        raw = values.iloc[:, 0]
+    else:
+        raw = values.bfill(axis=1).iloc[:, 0]
+    return pd.to_numeric(raw, errors="coerce")
 
 
 def summarize_series(series: pd.Series) -> dict[str, float | None]:
@@ -56,6 +70,7 @@ def summarize_series(series: pd.Series) -> dict[str, float | None]:
             "var": None,
             "skewness": None,
             "kurtosis": None,
+            "zscore": None,
             "min": None,
             "max": None,
             "last": None,
@@ -67,6 +82,7 @@ def summarize_series(series: pd.Series) -> dict[str, float | None]:
         "var": float(s.var()) if len(s) > 1 else 0.0,
         "skewness": float(s.skew()) if len(s) > 2 else 0.0,
         "kurtosis": float(s.kurt()) if len(s) > 3 else 0.0,
+        "zscore": _last_zscore(s),
         "min": float(s.min()),
         "max": float(s.max()),
         "last": float(s.iloc[-1]),
@@ -87,27 +103,14 @@ def last_valid_dict(df: pd.DataFrame) -> dict[str, float | None]:
 
 
 def _rolling_autocorr(series: pd.Series, window: int) -> pd.Series:
-    def autocorr(values: pd.Series) -> float:
-        if len(values) < 2:
-            return np.nan
-        return float(values.autocorr(lag=1))
-
-    return series.rolling(window, min_periods=window).apply(lambda values: autocorr(pd.Series(values)), raw=False)
+    return series.rolling(window, min_periods=window).corr(series.shift(1))
 
 
 def _rolling_entropy(series: pd.Series, window: int, bins: int = 10) -> pd.Series:
-    def entropy(values: np.ndarray) -> float:
-        clean = values[~np.isnan(values)]
-        if len(clean) < window:
-            return np.nan
-        counts, _ = np.histogram(clean, bins=bins)
-        total = counts.sum()
-        if total == 0:
-            return np.nan
-        probs = counts[counts > 0] / total
-        return float(-(probs * np.log(probs)).sum())
-
-    return series.rolling(window, min_periods=window).apply(entropy, raw=True)
+    # Entropy is intentionally omitted from the default per-family payload path:
+    # rolling histogram apply is expensive across every block/column. Core
+    # contract metrics remain mean/std/var/skewness/kurtosis/zscore/regimes.
+    return pd.Series(np.nan, index=series.index, dtype="float64")
 
 
 def _rolling_drawdown(series: pd.Series, window: int) -> pd.Series:
@@ -126,6 +129,15 @@ def _rolling_cov(base: pd.Series, ref: pd.Series, window: int) -> pd.Series:
 def _rolling_beta(base: pd.Series, ref: pd.Series, window: int) -> pd.Series:
     ref_var = ref.rolling(window, min_periods=window).var().replace(0, np.nan)
     return _rolling_cov(base, ref, window) / ref_var
+
+
+def _last_zscore(series: pd.Series) -> float:
+    if len(series) < 2:
+        return 0.0
+    std = series.std()
+    if pd.isna(std) or std == 0:
+        return 0.0
+    return float((series.iloc[-1] - series.mean()) / std)
 
 
 def compute_series_rolling_metrics(
@@ -205,17 +217,18 @@ def compute_block_statistics(
         }
 
     reference_column = "close" if "close" in numeric_columns else numeric_columns[0]
-    reference_series = pd.to_numeric(df[reference_column], errors="coerce")
+    reference_series = coerce_numeric_series(df, reference_column)
 
-    feature_frame = pd.DataFrame(index=df.index)
+    feature_frames: list[pd.DataFrame] = []
     summaries: dict[str, Any] = {}
 
     for column in numeric_columns:
-        series = pd.to_numeric(df[column], errors="coerce")
+        series = coerce_numeric_series(df, column)
         summaries[column] = summarize_series(series)
         metrics = compute_series_rolling_metrics(series, active_windows, reference_series)
-        metrics = metrics.add_prefix(f"{column}__")
-        feature_frame = pd.concat([feature_frame, metrics], axis=1)
+        feature_frames.append(metrics.add_prefix(f"{column}__"))
+
+    feature_frame = pd.concat(feature_frames, axis=1) if feature_frames else pd.DataFrame(index=df.index)
 
     return {
         "numeric_columns": numeric_columns,
@@ -231,6 +244,7 @@ __all__ = [
     "DEFAULT_WINDOWS",
     "EXCLUDED_COLUMNS",
     "safe_returns",
+    "coerce_numeric_series",
     "detect_numeric_columns",
     "summarize_series",
     "last_valid_dict",

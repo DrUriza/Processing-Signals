@@ -78,13 +78,22 @@ class MainPipeline:
         payload["inactive_families"] = family_outputs_index.get("inactive_families", [])
         manifest = self.output_builder.build_manifest(blocks)
         validation_report = OutputValidator(self.output_path.parent).validate()
-        payload["manifest"] = manifest
+        payload["manifest_summary"] = {
+            "output_shape": manifest["output_shape"],
+            "records_processed": manifest["records_processed"],
+        }
         payload["validation"] = validation_report
         payload["validation_status"] = validation_report["status"]
+        payload["errors"] = validation_report.get("errors", [])
+        payload["warnings"] = [
+            *payload.get("warnings", []),
+            *validation_report.get("warnings", []),
+        ]
 
         if self.write_manifest:
             manifest_path = self.output_path.parent / "metadata" / "manifest.json"
             self.output_builder.write_json(manifest, manifest_path)
+            payload["manifest_summary"]["path"] = str(manifest_path)
             payload["metadata_outputs"] = [
                 {
                     "output_shape": "manifest",
@@ -137,8 +146,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--max-rows",
         type=int,
-        default=20,
-        help="Optional limit for time-series rows included in the final HMI payload.",
+        default=None,
+        help="Optional row limit for small previews in the master report.",
     )
     parser.add_argument(
         "--write-validation-report",

@@ -7,6 +7,7 @@ import pandas as pd
 
 from processing_signals.processing.math.statistics import (
     DEFAULT_WINDOWS,
+    coerce_numeric_series,
     detect_numeric_columns,
     last_valid_dict,
 )
@@ -86,11 +87,13 @@ def compute_statistical_regimes(
             "last_regimes": {},
         }
 
-    feature_frame = pd.DataFrame(index=df.index)
+    feature_frames: list[pd.DataFrame] = []
     for column in numeric_columns:
-        series = pd.to_numeric(df[column], errors="coerce")
+        series = coerce_numeric_series(df, column)
         regimes = classify_series_regimes(series, active_windows).add_prefix(f"{column}__")
-        feature_frame = pd.concat([feature_frame, regimes], axis=1)
+        feature_frames.append(regimes)
+
+    feature_frame = pd.concat(feature_frames, axis=1) if feature_frames else pd.DataFrame(index=df.index)
 
     last_regimes: dict[str, str | None] = {}
     for column in feature_frame.columns:

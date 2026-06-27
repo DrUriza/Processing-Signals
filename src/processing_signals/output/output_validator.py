@@ -53,6 +53,8 @@ class OutputValidator:
 
         if not self.families_root.exists():
             errors.append(f"Families root not found: {self.families_root}")
+        if (self.output_root / "statistics").exists():
+            errors.append("Global statistics output folder is not allowed; statistics must live under block math.statistics.")
 
         family_dirs = [path for path in self.families_root.iterdir() if path.is_dir()] if self.families_root.exists() else []
         found_families = {path.name for path in family_dirs}
@@ -177,6 +179,15 @@ class OutputValidator:
             errors.append(f"{json_path}: block missing source_name")
         if not isinstance(block.get("detected"), dict):
             errors.append(f"{json_path}: block {block.get('source_name')} detected must be an object")
+
+        math_payload = block.get("math")
+        if not isinstance(math_payload, dict):
+            errors.append(f"{json_path}: block {block.get('source_name')} math must be an object")
+            math_payload = {}
+        if "statistics" not in math_payload:
+            errors.append(f"{json_path}: block {block.get('source_name')} missing math.statistics")
+        if "statistical_regimes" not in math_payload:
+            errors.append(f"{json_path}: block {block.get('source_name')} missing math.statistical_regimes")
 
         feature_snapshot = block.get("math", {}).get("feature_snapshot", {})
         non_numeric = [
