@@ -5,11 +5,12 @@ from typing import Any
 import pandas as pd
 
 from processing_signals.processing.math.statistics import (
-    rolling_distribution_features,
-    safe_returns,
-    summarize_series,
+    EXCLUDED_COLUMNS,
+    compute_block_statistics,
     last_valid_dict,
+    summarize_series,
 )
+from processing_signals.processing.math.statistical_regimes import compute_statistical_regimes
 from processing_signals.processing.math.technical_indicators import compute_ohlcv_indicators
 from processing_signals.processing.math.microstructure import orderbook_metrics, event_flow_metrics, wall_score_from_orderbook
 
@@ -24,33 +25,53 @@ class ProcessingMathEngine:
       - microstructure metrics for order book, large trades, and whale orders
     """
 
-    DEFAULT_WINDOWS = [14, 30, 60]
+    DEFAULT_WINDOWS = [20, 50, 100]
 
     def compute(self, normalized: dict[str, Any], decision: dict[str, Any]) -> dict[str, Any]:
         kind = normalized.get("kind")
+        result = self._base_result()
 
         if kind == "candlestick":
-            return self._compute_candlestick(normalized, decision)
+            result.update(self._compute_candlestick(normalized, decision))
+        elif kind == "orderbook_conventional":
+            result.update(self._compute_orderbook(normalized, decision))
+        elif kind in {"orderbook_large_trades", "orderbook_whale_orders"}:
+            result.update(self._compute_event_list(normalized, decision))
 
-        if kind == "orderbook_conventional":
-            return self._compute_orderbook(normalized, decision)
+        frame = self._frame_for_statistics(normalized)
+        if not frame.empty:
+            statistics = compute_block_statistics(
+                frame,
+                windows=self.DEFAULT_WINDOWS,
+                excluded_columns=EXCLUDED_COLUMNS,
+            )
+            regimes = compute_statistical_regimes(
+                frame,
+                windows=self.DEFAULT_WINDOWS,
+                excluded_columns=EXCLUDED_COLUMNS,
+            )
+            result["statistics"] = statistics
+            result["statistical_regimes"] = regimes
+            # Keep the legacy key for compatibility while introducing math.statistics.
+            result["statistical"] = statistics
+            result["feature_snapshot"].update(statistics.get("last", {}))
 
-        if kind in {"orderbook_large_trades", "orderbook_whale_orders"}:
-            return self._compute_event_list(normalized, decision)
+        return result
 
-        if kind in {"mining_network_health", "onchain_holder_behavior"}:
-            return self._compute_metric_timeseries(normalized, decision)
-
-        return {"technical": {}, "statistical": {}, "microstructure": {}, "feature_snapshot": {}}
-
-    def _compute_candlestick(self, normalized: dict[str, Any], decision: dict[str, Any]) -> dict[str, Any]:
-        df: pd.DataFrame = normalized["dataframe"]
-        result: dict[str, Any] = {
+    @staticmethod
+    def _base_result() -> dict[str, Any]:
+        return {
             "technical": {},
             "statistical": {},
+            "statistics": {},
+            "statistical_regimes": {},
             "microstructure": {},
             "feature_snapshot": {},
         }
+
+    def _compute_candlestick(self, normalized: dict[str, Any], decision: dict[str, Any]) -> dict[str, Any]:
+        df: pd.DataFrame = normalized["dataframe"]
+        result: dict[str, Any] = self._base_result()
 
         feature_frame = pd.DataFrame(index=df.index)
 
@@ -61,28 +82,6 @@ class ProcessingMathEngine:
                 "columns": list(technical_df.columns),
             }
             feature_frame = pd.concat([feature_frame, technical_df], axis=1)
-
-        if decision.get("apply_statistical_metrics"):
-            returns = safe_returns(df["close"], method="log")
-            close_stats = rolling_distribution_features(df["close"], self.DEFAULT_WINDOWS)
-            return_stats = rolling_distribution_features(returns, self.DEFAULT_WINDOWS)
-            return_stats = return_stats.add_prefix("returns_")
-
-            # Rolling beta example: close returns against volume returns.
-            # Later this can be BTC vs ETH, NASDAQ, OI, CVD, ETF netflow, etc.
-            volume_returns = safe_returns(df["volume"], method="log")
-            beta_30 = returns.rolling(30).cov(volume_returns) / volume_returns.rolling(30).var().replace(0, pd.NA)
-
-            statistical_df = pd.concat([close_stats, return_stats], axis=1)
-            statistical_df["rolling_beta_return_vs_volume_30"] = beta_30
-
-            result["statistical"] = {
-                "close_summary": summarize_series(df["close"]),
-                "return_summary": summarize_series(returns),
-                "last": last_valid_dict(statistical_df),
-                "columns": list(statistical_df.columns),
-            }
-            feature_frame = pd.concat([feature_frame, statistical_df], axis=1)
 
         result["feature_snapshot"] = last_valid_dict(feature_frame)
         return result
@@ -108,6 +107,8 @@ class ProcessingMathEngine:
                 "bid_notional_summary": bid_notional_stats,
                 "ask_notional_summary": ask_notional_stats,
             },
+            "statistics": {},
+            "statistical_regimes": {},
             "microstructure": micro,
             "feature_snapshot": feature_snapshot,
         }
@@ -128,54 +129,24 @@ class ProcessingMathEngine:
         return {
             "technical": {},
             "statistical": stats,
+            "statistics": {},
+            "statistical_regimes": {},
             "microstructure": flow,
             "feature_snapshot": feature_snapshot,
         }
 
-    def _compute_metric_timeseries(self, normalized: dict[str, Any], decision: dict[str, Any]) -> dict[str, Any]:
-        df: pd.DataFrame = normalized["dataframe"]
-        numeric_columns = [
-            column
-            for column in df.columns
-            if column not in {"timestamp", "symbol", "timeframe"}
-            and pd.api.types.is_numeric_dtype(df[column])
-        ]
+    def _frame_for_statistics(self, normalized: dict[str, Any]) -> pd.DataFrame:
+        if isinstance(normalized.get("dataframe"), pd.DataFrame):
+            return normalized["dataframe"].copy()
 
-        feature_frame = pd.DataFrame(index=df.index)
-        summaries: dict[str, Any] = {}
+        if isinstance(normalized.get("events"), pd.DataFrame):
+            return normalized["events"].copy()
 
-        for column in numeric_columns:
-            series = pd.to_numeric(df[column], errors="coerce")
-            summary = summarize_series(series)
-            std = summary.get("std") or 0
-            last = summary.get("last")
-            mean = summary.get("mean")
-            zscore = (last - mean) / std if last is not None and mean is not None and std else 0.0
+        bids = normalized.get("bids")
+        asks = normalized.get("asks")
+        if isinstance(bids, pd.DataFrame) and isinstance(asks, pd.DataFrame):
+            bid_df = bids.add_prefix("bid_").reset_index(drop=True)
+            ask_df = asks.add_prefix("ask_").reset_index(drop=True)
+            return pd.concat([bid_df, ask_df], axis=1)
 
-            summaries[column] = {
-                **summary,
-                "zscore": float(zscore),
-            }
-
-            if len(series.dropna()) >= min(self.DEFAULT_WINDOWS):
-                rolling = rolling_distribution_features(series, self.DEFAULT_WINDOWS).add_prefix(f"{column}_")
-                feature_frame = pd.concat([feature_frame, rolling], axis=1)
-
-        feature_snapshot: dict[str, Any] = {}
-        for column, summary in summaries.items():
-            feature_snapshot.update({f"{column}_{key}": value for key, value in summary.items()})
-        feature_snapshot.update(last_valid_dict(feature_frame))
-
-        return {
-            "technical": {},
-            "statistical": {
-                "numeric_columns": numeric_columns,
-                "summaries": summaries,
-                "rolling": {
-                    "last": last_valid_dict(feature_frame),
-                    "columns": list(feature_frame.columns),
-                },
-            },
-            "microstructure": {},
-            "feature_snapshot": feature_snapshot,
-        }
+        return pd.DataFrame()
