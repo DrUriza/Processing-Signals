@@ -94,3 +94,23 @@ Whale orders:
 2. Agregar `rolling_beta` contra benchmarks reales: ETH, NASDAQ, SPX, DXY, CVD, OI, ETF netflow.
 3. Expandir `patterns/` con candlestick patterns completos.
 4. Agregar microestructura avanzada: microprice, OFI, absorption, sweep detector, spoof/wall fade score.
+
+## Checkpoint: Sections 1-3 Processing Baseline (Closed)
+
+Validated baseline:
+
+- 9 official families active
+- 11 operational data_types
+- 4 official timeframes
+- 600 internal records per timeframe
+- records_processed: 45
+- 44 data blocks + manifest
+- family outputs generated
+- single master report: `main_pipeline_output.json`
+
+Pending for Section 4:
+
+- Add pure rolling statistical metrics
+- Add statistical regimes
+- Enable statistics for all numeric data blocks
+- Do not force classic technical indicators on non-OHLCV data

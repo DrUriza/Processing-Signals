@@ -24,15 +24,28 @@ class OutputBuilder:
 
     def build(self, blocks: list[dict[str, Any]]) -> dict[str, Any]:
         serializable_blocks = [self._to_json_safe(block) for block in blocks]
+        data_types = self._count_data_types(serializable_blocks)
         return {
             "pipeline": "Processing-Signals MainPipeline",
             "version": "0.1.0",
             "summary": {
                 "records_processed": len(serializable_blocks),
-                "data_types": self._count_data_types(serializable_blocks),
+                "data_types": data_types,
             },
+            "data_types": data_types,
             "blocks": serializable_blocks,
             "ml_feature_matrix_preview": self._build_ml_feature_matrix_preview(serializable_blocks),
+        }
+
+    def build_manifest(self, blocks: list[dict[str, Any]]) -> dict[str, Any]:
+        manifest_blocks = [block for block in blocks if block.get("is_metadata")]
+        serializable_blocks = [self._to_json_safe(block) for block in manifest_blocks]
+        return {
+            "pipeline": "Processing-Signals MainPipeline",
+            "version": "0.1.0",
+            "output_shape": "manifest",
+            "records_processed": len(serializable_blocks),
+            "blocks": serializable_blocks,
         }
 
     def write_json(self, payload: dict[str, Any], output_path: Path) -> None:

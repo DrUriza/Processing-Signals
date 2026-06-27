@@ -11,6 +11,39 @@ def resolve_output_family(block: dict[str, Any]) -> dict[str, str]:
     kind = str(normalized.get("kind") or "").lower()
     shape_source = " ".join([data_type, canonical_type, kind])
 
+    if any(
+        token in data_type
+        for token in ["miner", "mining", "hash_rate", "hashrate", "miner_ratio","miner_inflow",
+                      "miner_outflow", "miner_netflow", "difficulty", "network_health"]):
+        output_shape = _network_or_onchain_shape(shape_source)
+        return _family("mining_network_health", output_shape, f"{output_shape}.json")
+
+    if any(
+        token in data_type
+        for token in [
+            "onchain",
+            "on_chain",
+            "glassnode",
+            "holder",
+            "holders",
+            "cohort",
+            "cohorts",
+            "accumulation",
+            "distribution",
+            "exchange_balance",
+            "mvrv",
+            "nvt",
+            "sopr",
+            "realized_cap",
+            "supply_in_profit",
+            "supply_in_loss",
+            "long_term_holder",
+            "short_term_holder",
+        ]
+    ):
+        output_shape = _network_or_onchain_shape(shape_source)
+        return _family("onchain_holder_behavior", output_shape, f"{output_shape}.json")
+
     if data_type == "candlestick":
         return _family("prices_ohlcv", "candlestick", "candlestick.json")
 
@@ -108,4 +141,14 @@ def _sentiment_shape(shape_source: str) -> str:
         return "candlestick_derived"
     if "bar" in shape_source:
         return "bar"
+    return "time_series"
+
+
+def _network_or_onchain_shape(shape_source: str) -> str:
+    if "regime" in shape_source:
+        return "regimes"
+    if "event" in shape_source:
+        return "event_list"
+    if "bar" in shape_source:
+        return "bars"
     return "time_series"

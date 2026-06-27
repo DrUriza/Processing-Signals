@@ -1,30 +1,32 @@
-# Resultado de ejecución del MainPipeline
+# Processing Baseline Checkpoint (Sections 1-3 Closed)
 
-Entrada usada: `btc_processing_jsons_v2.zip`
+This checkpoint closes the previous processing stage and establishes the validated baseline before Section 4.
 
-Archivos procesados: 8
+## Baseline Status
 
-Tipos detectados:
+- Stage: Sections 1-3
+- Status: Closed
+- Master report: `data_output/main_pipeline_output.json`
 
-```json
-{
-  "candlestick": 4,
-  "orderbook_conventional": 1,
-  "orderbook_large_trades": 1,
-  "orderbook_whale_orders": 1,
-  "manifest": 1
-}
-```
+## Validated
 
-Bloques principales creados:
+- 9 official families active
+- 11 operational data_types
+- 4 official timeframes
+- 600 internal records per timeframe
+- `records_processed`: 45
+- 44 data blocks + manifest
+- Family outputs generated
+- Single master report generated: `main_pipeline_output.json`
 
-- `input`: carga ZIP/JSON/directorio.
-- `processing`: `DataTypeDetector`, `Normalizer`, `IndicatorDecisionEngine`.
-- `processing_math`: indicadores técnicos, estadísticas puras, microestructura.
-- `patterns`: candlestick, regímenes estadísticos, liquidez/eventos.
-- `classification`: rutas HMI / ML / algoritmia avanzada.
-- `output`: JSON final unificado + preview de matriz ML.
+## Reference Snapshot
 
-Output demo:
+- Families directory: `data_output/families/`
+- Master output summary: `data_output/main_pipeline_output.json`
 
-`demo_output/main_pipeline_output.json`
+## Pending for Section 4
+
+- Add pure rolling statistical metrics
+- Add statistical regimes
+- Enable statistics for all numeric data blocks
+- Do not force classic technical indicators on non-OHLCV data

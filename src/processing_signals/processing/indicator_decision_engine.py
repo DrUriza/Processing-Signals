@@ -85,6 +85,18 @@ class IndicatorDecisionEngine:
             base["targets"]["hmi"] = True
             base["notes"].append("Manifest is metadata only; no indicators.")
 
+        elif data_type in {"mining_network_health", "onchain_holder_behavior"}:
+            base.update(
+                {
+                    "apply_technical_indicators": False,
+                    "apply_statistical_metrics": True,
+                    "apply_microstructure_metrics": False,
+                    "apply_patterns": True,
+                    "targets": {"hmi": True, "ml": True, "advanced_algorithms": True},
+                }
+            )
+            base["notes"].append("Network/on-chain metrics use statistical features, regimes, HMI, ML, and advanced routes.")
+
         else:
             base["notes"].append("Unknown type; no indicators applied.")
 

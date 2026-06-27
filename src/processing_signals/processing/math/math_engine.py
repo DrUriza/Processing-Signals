@@ -38,6 +38,9 @@ class ProcessingMathEngine:
         if kind in {"orderbook_large_trades", "orderbook_whale_orders"}:
             return self._compute_event_list(normalized, decision)
 
+        if kind in {"mining_network_health", "onchain_holder_behavior"}:
+            return self._compute_metric_timeseries(normalized, decision)
+
         return {"technical": {}, "statistical": {}, "microstructure": {}, "feature_snapshot": {}}
 
     def _compute_candlestick(self, normalized: dict[str, Any], decision: dict[str, Any]) -> dict[str, Any]:
@@ -126,5 +129,53 @@ class ProcessingMathEngine:
             "technical": {},
             "statistical": stats,
             "microstructure": flow,
+            "feature_snapshot": feature_snapshot,
+        }
+
+    def _compute_metric_timeseries(self, normalized: dict[str, Any], decision: dict[str, Any]) -> dict[str, Any]:
+        df: pd.DataFrame = normalized["dataframe"]
+        numeric_columns = [
+            column
+            for column in df.columns
+            if column not in {"timestamp", "symbol", "timeframe"}
+            and pd.api.types.is_numeric_dtype(df[column])
+        ]
+
+        feature_frame = pd.DataFrame(index=df.index)
+        summaries: dict[str, Any] = {}
+
+        for column in numeric_columns:
+            series = pd.to_numeric(df[column], errors="coerce")
+            summary = summarize_series(series)
+            std = summary.get("std") or 0
+            last = summary.get("last")
+            mean = summary.get("mean")
+            zscore = (last - mean) / std if last is not None and mean is not None and std else 0.0
+
+            summaries[column] = {
+                **summary,
+                "zscore": float(zscore),
+            }
+
+            if len(series.dropna()) >= min(self.DEFAULT_WINDOWS):
+                rolling = rolling_distribution_features(series, self.DEFAULT_WINDOWS).add_prefix(f"{column}_")
+                feature_frame = pd.concat([feature_frame, rolling], axis=1)
+
+        feature_snapshot: dict[str, Any] = {}
+        for column, summary in summaries.items():
+            feature_snapshot.update({f"{column}_{key}": value for key, value in summary.items()})
+        feature_snapshot.update(last_valid_dict(feature_frame))
+
+        return {
+            "technical": {},
+            "statistical": {
+                "numeric_columns": numeric_columns,
+                "summaries": summaries,
+                "rolling": {
+                    "last": last_valid_dict(feature_frame),
+                    "columns": list(feature_frame.columns),
+                },
+            },
+            "microstructure": {},
             "feature_snapshot": feature_snapshot,
         }

@@ -10,7 +10,7 @@ import pandas as pd
 
 
 class FamilyOutputBuilder:
-    OFFICIAL_FAMILIES = {
+    OFFICIAL_FAMILIES = [
         "prices_ohlcv",
         "volume_orderflow",
         "liquidity_microstructure",
@@ -18,7 +18,9 @@ class FamilyOutputBuilder:
         "liquidations",
         "derivatives_open_interest",
         "sentiment_positioning",
-    }
+        "mining_network_health",
+        "onchain_holder_behavior",
+    ]
 
     def __init__(self, output_dir: Path, pipeline_name: str, version: str):
         self.output_dir = Path(output_dir)
@@ -29,27 +31,14 @@ class FamilyOutputBuilder:
     def write_family_outputs(self, blocks: list[dict[str, Any]]) -> dict[str, Any]:
         self._prepare_output_roots()
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        self.metadata_dir.mkdir(parents=True, exist_ok=True)
         grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
-        metadata_outputs: list[dict[str, Any]] = []
 
         for block in blocks:
             family_key = block.get("family_key", "unknown")
             output_shape = block.get("output_shape", "unknown")
 
             if block.get("is_metadata"):
-                output_filename = block.get("output_filename", f"{output_shape}.json")
-                output_path = self.metadata_dir / output_filename
-                block["family_output_path"] = str(output_path)
-                payload = self._build_metadata_payload(output_shape, [block])
-                self._write_json(payload, output_path)
-                metadata_outputs.append(
-                    {
-                        "output_shape": output_shape,
-                        "path": str(output_path),
-                        "records_processed": 1,
-                    }
-                )
+                block["family_output_path"] = ""
                 continue
 
             if family_key not in self.OFFICIAL_FAMILIES:
@@ -68,12 +57,53 @@ class FamilyOutputBuilder:
                     output_path = self.output_dir / family_key / variant_filename
                     block["family_output_paths"].append(str(output_path))
                     grouped[(family_key, variant_shape)].append(block)
+                for variant_shape, variant_filename in self._volume_derivative_variants(block):
+                    output_path = self.output_dir / "volume_orderflow" / variant_filename
+                    block["family_output_paths"].append(str(output_path))
+                    grouped[("volume_orderflow", variant_shape)].append(block)
+                block["family_output_path"] = block["family_output_paths"][0] if block["family_output_paths"] else ""
+            elif family_key == "volume_orderflow":
+                block["family_output_paths"] = []
+                for variant_shape, variant_filename in self._volume_orderflow_variants(block):
+                    output_path = self.output_dir / family_key / variant_filename
+                    block["family_output_paths"].append(str(output_path))
+                    grouped[(family_key, variant_shape)].append(block)
+                block["family_output_path"] = block["family_output_paths"][0] if block["family_output_paths"] else ""
+            elif family_key in {"institutional_flows", "liquidations"}:
+                block["family_output_paths"] = []
+                for variant_shape, variant_filename in self._four_shape_variants():
+                    output_path = self.output_dir / family_key / variant_filename
+                    block["family_output_paths"].append(str(output_path))
+                    grouped[(family_key, variant_shape)].append(block)
+                block["family_output_path"] = block["family_output_paths"][0] if block["family_output_paths"] else ""
+            elif family_key == "derivatives_open_interest":
+                block["family_output_paths"] = []
+                for variant_shape, variant_filename in self._open_interest_variants():
+                    output_path = self.output_dir / family_key / variant_filename
+                    block["family_output_paths"].append(str(output_path))
+                    grouped[(family_key, variant_shape)].append(block)
+                block["family_output_path"] = block["family_output_paths"][0] if block["family_output_paths"] else ""
+            elif family_key == "sentiment_positioning":
+                block["family_output_paths"] = []
+                for variant_shape, variant_filename in self._sentiment_variants():
+                    output_path = self.output_dir / family_key / variant_filename
+                    block["family_output_paths"].append(str(output_path))
+                    grouped[(family_key, variant_shape)].append(block)
+                block["family_output_path"] = block["family_output_paths"][0] if block["family_output_paths"] else ""
+            elif family_key in {"mining_network_health", "onchain_holder_behavior"}:
+                block["family_output_paths"] = []
+                for variant_shape, variant_filename in self._network_onchain_variants():
+                    output_path = self.output_dir / family_key / variant_filename
+                    block["family_output_paths"].append(str(output_path))
+                    grouped[(family_key, variant_shape)].append(block)
                 block["family_output_path"] = block["family_output_paths"][0] if block["family_output_paths"] else ""
             else:
                 output_filename = block.get("output_filename", f"{output_shape}.json")
                 output_path = self.output_dir / family_key / output_filename
                 block["family_output_path"] = str(output_path)
                 grouped[(family_key, output_shape)].append(block)
+
+        self._validate_family_output_limits(grouped)
 
         family_entries: dict[str, list[dict[str, Any]]] = defaultdict(list)
 
@@ -92,14 +122,19 @@ class FamilyOutputBuilder:
                 }
             )
 
+        active_families = [family for family in self.OFFICIAL_FAMILIES if family in family_entries]
+        inactive_families = [family for family in self.OFFICIAL_FAMILIES if family not in family_entries]
+
         return {
             "families_root": str(self.output_dir),
-            "metadata_root": str(self.metadata_dir),
+            "official_families": self.OFFICIAL_FAMILIES,
+            "active_families": active_families,
+            "inactive_families": inactive_families,
             "families": [
-                {"family_key": family_key, "outputs": outputs}
-                for family_key, outputs in sorted(family_entries.items())
+                {"family_key": family_key, "outputs": family_entries[family_key]}
+                for family_key in self.OFFICIAL_FAMILIES
+                if family_key in family_entries
             ],
-            "metadata": metadata_outputs,
         }
 
     def _prepare_output_roots(self) -> None:
@@ -148,9 +183,12 @@ class FamilyOutputBuilder:
         subtype = subtype_by_data_type.get(data_type)
         if subtype is None:
             return []
+        block["source_subtype"] = subtype
 
-        shapes = ["orderbook", "time_series", "event_list", "bars"]
-        return [(f"{subtype}_{shape}", f"{subtype}_{shape}.json") for shape in shapes]
+        shapes = ["orderbook", "time_series", "bars"]
+        if subtype in {"large_trades", "whale_orders"}:
+            shapes.append("event_list")
+        return [(shape, f"{shape}.json") for shape in shapes]
 
     @staticmethod
     def _prices_variants(block: dict[str, Any]) -> list[tuple[str, str]]:
@@ -160,6 +198,77 @@ class FamilyOutputBuilder:
             ("candlestick", "candlestick.json"),
             ("time_series", "time_series.json"),
         ]
+
+    @staticmethod
+    def _volume_derivative_variants(block: dict[str, Any]) -> list[tuple[str, str]]:
+        if block.get("detected", {}).get("data_type") != "candlestick":
+            return []
+        normalized = block.get("normalized", {})
+        dataframe = normalized.get("dataframe")
+        if not isinstance(dataframe, pd.DataFrame):
+            return []
+        if "volume" not in dataframe.columns and "notional_volume" not in dataframe.columns:
+            return []
+        return [("volume_features", "volume_features.json")]
+
+    @staticmethod
+    def _volume_orderflow_variants(block: dict[str, Any]) -> list[tuple[str, str]]:
+        if block.get("detected", {}).get("data_type") != "cvd":
+            return []
+        return [
+            ("cvd_time_series", "cvd_time_series.json"),
+            ("cvd_candlestick_derived", "cvd_candlestick_derived.json"),
+            ("orderflow_features", "orderflow_features.json"),
+        ]
+
+    @staticmethod
+    def _four_shape_variants() -> list[tuple[str, str]]:
+        return [
+            ("time_series", "time_series.json"),
+            ("bars", "bars.json"),
+            ("event_list", "event_list.json"),
+            ("candlestick_derived", "candlestick_derived.json"),
+        ]
+
+    @staticmethod
+    def _open_interest_variants() -> list[tuple[str, str]]:
+        return [
+            ("time_series", "time_series.json"),
+            ("candlestick_derived", "candlestick_derived.json"),
+            ("regimes", "regimes.json"),
+        ]
+
+    @staticmethod
+    def _sentiment_variants() -> list[tuple[str, str]]:
+        return [
+            ("time_series", "time_series.json"),
+            ("bars", "bars.json"),
+            ("candlestick_derived", "candlestick_derived.json"),
+        ]
+
+    @staticmethod
+    def _network_onchain_variants() -> list[tuple[str, str]]:
+        return [
+            ("time_series", "time_series.json"),
+            ("bars", "bars.json"),
+            ("event_list", "event_list.json"),
+            ("regimes", "regimes.json"),
+        ]
+
+    @classmethod
+    def _validate_family_output_limits(cls, grouped: dict[tuple[str, str], list[dict[str, Any]]]) -> None:
+        counts: dict[str, set[str]] = defaultdict(set)
+        for family_key, output_shape in grouped:
+            counts[family_key].add(output_shape)
+
+        too_many = {
+            family_key: sorted(output_shapes)
+            for family_key, output_shapes in counts.items()
+            if family_key in cls.OFFICIAL_FAMILIES and len(output_shapes) > 4
+        }
+        if too_many:
+            details = "; ".join(f"{family}: {shapes}" for family, shapes in sorted(too_many.items()))
+            raise ValueError(f"Family output contract violation: more than 4 outputs generated for {details}")
 
     @staticmethod
     def _write_json(payload: dict[str, Any], output_path: Path) -> None:

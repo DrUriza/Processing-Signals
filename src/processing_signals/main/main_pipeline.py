@@ -13,6 +13,7 @@ from processing_signals.input.json_loader import JsonInputLoader
 from processing_signals.output.family_output_builder import FamilyOutputBuilder
 from processing_signals.output.output_builder import OutputBuilder
 from processing_signals.output.output_family_rules import resolve_output_family
+from processing_signals.output.output_validator import OutputValidator
 from processing_signals.processing.data_type_detector import DataTypeDetector
 from processing_signals.processing.indicator_decision_engine import IndicatorDecisionEngine
 from processing_signals.processing.math.math_engine import ProcessingMathEngine
@@ -23,9 +24,18 @@ from processing_signals.processing.patterns.pattern_engine import PatternEngine
 class MainPipeline:
     """Orchestrates input, processing, math, patterns, classification, and output."""
 
-    def __init__(self, input_path: Path, output_path: Path, max_rows: int | None = None):
+    def __init__(
+        self,
+        input_path: Path,
+        output_path: Path,
+        max_rows: int | None = None,
+        write_validation_report: bool = False,
+        write_manifest: bool = False,
+    ):
         self.input_path = Path(input_path)
         self.output_path = Path(output_path)
+        self.write_validation_report = write_validation_report
+        self.write_manifest = write_manifest
         self.loader = JsonInputLoader(self.input_path)
         self.detector = DataTypeDetector()
         self.normalizer = Normalizer()
@@ -44,7 +54,11 @@ class MainPipeline:
             family_info = resolve_output_family(block)
             block.update(family_info)
             if family_info.get("is_metadata"):
-                block["family_output_path"] = str(self.output_path.parent / "metadata" / family_info["output_filename"])
+                block["family_output_path"] = (
+                    str(self.output_path.parent / "metadata" / family_info["output_filename"])
+                    if self.write_manifest
+                    else ""
+                )
             else:
                 block["family_output_path"] = str(
                     family_output_dir / family_info["family_key"] / family_info["output_filename"]
@@ -59,7 +73,31 @@ class MainPipeline:
 
         payload = self.output_builder.build(blocks)
         payload["family_outputs"] = family_outputs_index
-        payload["metadata_outputs"] = family_outputs_index.get("metadata", [])
+        payload["official_families"] = family_outputs_index.get("official_families", [])
+        payload["active_families"] = family_outputs_index.get("active_families", [])
+        payload["inactive_families"] = family_outputs_index.get("inactive_families", [])
+        manifest = self.output_builder.build_manifest(blocks)
+        validation_report = OutputValidator(self.output_path.parent).validate()
+        payload["manifest"] = manifest
+        payload["validation"] = validation_report
+        payload["validation_status"] = validation_report["status"]
+
+        if self.write_manifest:
+            manifest_path = self.output_path.parent / "metadata" / "manifest.json"
+            self.output_builder.write_json(manifest, manifest_path)
+            payload["metadata_outputs"] = [
+                {
+                    "output_shape": "manifest",
+                    "path": str(manifest_path),
+                    "records_processed": manifest["records_processed"],
+                }
+            ]
+
+        if self.write_validation_report:
+            validation_path = self.output_path.parent / "validation_report.json"
+            self.output_builder.write_json(validation_report, validation_path)
+            payload["validation_report"] = str(validation_path)
+
         self.output_builder.write_json(payload, self.output_path)
         return payload
 
@@ -88,8 +126,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--input",
-        default="data_input/btc_processing_jsons_v2.zip",
-        help="Input JSON file, ZIP file, or directory containing JSON files.",
+        default=None,
+        help="Input JSON file, ZIP file, or directory containing JSON files. Defaults to the first supported file in data_input/.",
     )
     parser.add_argument(
         "--output",
@@ -102,13 +140,33 @@ def parse_args() -> argparse.Namespace:
         default=20,
         help="Optional limit for time-series rows included in the final HMI payload.",
     )
+    parser.add_argument(
+        "--write-validation-report",
+        action="store_true",
+        help="Write data_output/validation_report.json in addition to embedding validation in the main output.",
+    )
+    parser.add_argument(
+        "--write-manifest",
+        action="store_true",
+        help="Write data_output/metadata/manifest.json in addition to embedding manifest in the main output.",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    pipeline = MainPipeline(input_path=Path(args.input), output_path=Path(args.output), max_rows=args.max_rows)
+    input_path = resolve_input_path(args.input)
+    pipeline = MainPipeline(
+        input_path=input_path,
+        output_path=Path(args.output),
+        max_rows=args.max_rows,
+        write_validation_report=args.write_validation_report,
+        write_manifest=args.write_manifest,
+    )
     result = pipeline.run()
+    print("input:")
+    print(input_path.resolve())
+    print()
     print(f"records_processed: {result['summary']['records_processed']}")
     print()
     print("data_types:")
@@ -118,9 +176,28 @@ def main() -> None:
     print("main_output:")
     print(Path(args.output).resolve())
     print()
-    print("metadata_outputs:")
-    for output in result.get("family_outputs", {}).get("metadata", []):
-        print(output["path"])
+    print(f"validation_status: {result.get('validation_status')}")
+    print()
+    if args.write_validation_report:
+        print("validation_report:")
+        print(Path(args.output).parent / "validation_report.json")
+        print()
+    if args.write_manifest:
+        print("metadata_outputs:")
+        for output in result.get("metadata_outputs", []):
+            print(output["path"])
+        print()
+    print("official_families:")
+    for family_key in result.get("family_outputs", {}).get("official_families", []):
+        print(family_key)
+    print()
+    print("active_families:")
+    for family_key in result.get("family_outputs", {}).get("active_families", []):
+        print(family_key)
+    print()
+    print("inactive_families:")
+    for family_key in result.get("family_outputs", {}).get("inactive_families", []):
+        print(family_key)
     print()
     print("family_outputs:")
     for family in result.get("family_outputs", {}).get("families", []):
@@ -128,6 +205,27 @@ def main() -> None:
         for output in family.get("outputs", []):
             print(output["path"])
         print()
+
+
+def resolve_input_path(input_arg: str | None) -> Path:
+    if input_arg:
+        return Path(input_arg)
+
+    input_dir = Path("data_input")
+    if not input_dir.exists():
+        raise FileNotFoundError("No --input provided and data_input/ does not exist.")
+
+    candidates = [
+        path
+        for path in input_dir.iterdir()
+        if path.is_file() and path.suffix.lower() in {".zip", ".json"}
+    ]
+    candidates.sort(key=lambda path: (path.suffix.lower() != ".zip", path.name.lower()))
+
+    if not candidates:
+        raise FileNotFoundError("No --input provided and no .zip or .json files were found in data_input/.")
+
+    return candidates[0]
 
 
 if __name__ == "__main__":
