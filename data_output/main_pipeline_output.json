@@ -690,6 +690,7 @@
     "records_with_statistical_regimes": 44,
     "records_with_microstructure": 12,
     "records_with_feature_snapshot": 44,
+    "records_with_regime_flags": 44,
     "statistics": {
       "numeric_column_counts": {
         "cvd": 4,

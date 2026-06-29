@@ -1,6 +1,5 @@
 from __future__ import annotations
-
-from typing import Any
+from typing     import Any
 
 
 def resolve_output_family(block: dict[str, Any]) -> dict[str, str]:

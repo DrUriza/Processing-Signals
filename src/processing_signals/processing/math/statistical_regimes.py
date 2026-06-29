@@ -113,7 +113,66 @@ def compute_statistical_regimes(
     }
 
 
+def build_regime_flags(regimes: dict[str, Any], statistics: dict[str, Any] | None = None) -> dict[str, bool]:
+    """Build compact boolean flags from computed statistical regime payloads."""
+    statistics = statistics or {}
+    last_regimes = regimes.get("last_regimes", {}) or {}
+    last_values = regimes.get("last", {}) or {}
+    statistics_last = statistics.get("last", {}) or {}
+    summaries = statistics.get("summaries", {}) or {}
+
+    regime_labels = [str(value) for value in last_regimes.values() if value is not None]
+    zscores = [
+        value
+        for key, value in last_values.items()
+        if "zscore" in str(key) and isinstance(value, (int, float))
+    ]
+
+    high_volatility = any("high_volatility" in label for label in regime_labels)
+    low_volatility = any(
+        "low_volatility" in label or "compression" in label
+        for label in regime_labels
+    )
+    max_abs_zscore = max((abs(value) for value in zscores), default=0.0)
+    reference_zscore = next(iter(zscores), 0.0)
+
+    skewness_values = _values_for_metric(statistics_last, summaries, "rolling_skewness")
+    kurtosis_values = _values_for_metric(statistics_last, summaries, "rolling_kurtosis")
+
+    return {
+        "high_volatility_regime": high_volatility,
+        "low_volatility_regime": low_volatility,
+        "trend_expansion": high_volatility and max_abs_zscore >= 1.0,
+        "mean_reversion_zone": abs(reference_zscore) <= 0.5 and not high_volatility,
+        "outlier_positive": any(value >= 2.0 for value in zscores),
+        "outlier_negative": any(value <= -2.0 for value in zscores),
+        "distribution_skewed_positive": any(value >= 1.0 for value in skewness_values),
+        "distribution_skewed_negative": any(value <= -1.0 for value in skewness_values),
+        "fat_tail_risk": any(value >= 3.0 for value in kurtosis_values),
+    }
+
+
+def _values_for_metric(
+    statistics_last: dict[str, Any],
+    summaries: dict[str, Any],
+    metric: str,
+) -> list[float]:
+    values = [
+        value
+        for key, value in statistics_last.items()
+        if metric in str(key) and isinstance(value, (int, float))
+    ]
+    for summary in summaries.values():
+        if not isinstance(summary, dict):
+            continue
+        for key, value in summary.items():
+            if metric in str(key) and isinstance(value, (int, float)):
+                values.append(float(value))
+    return values
+
+
 __all__ = [
+    "build_regime_flags",
     "classify_series_regimes",
     "compute_statistical_regimes",
 ]

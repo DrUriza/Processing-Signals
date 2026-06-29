@@ -151,4 +151,5 @@ class DataTypeDetector:
             "provider_source": metadata.get("source"),
             "timestamp_utc": metadata.get("timestamp_utc") or metadata.get("created_at_utc"),
             "metadata": metadata,
+            "suggested_family_key": metadata.get("family"),
         }

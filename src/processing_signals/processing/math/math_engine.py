@@ -11,8 +11,9 @@ from processing_signals.processing.math.statistics import (
     last_valid_dict,
     summarize_series,
 )
-from processing_signals.processing.math.statistical_regimes import compute_statistical_regimes
-from processing_signals.processing.math.technical_indicators import compute_ohlcv_indicators
+from processing_signals.processing.math.statistical_regimes import build_regime_flags, compute_statistical_regimes
+from processing_signals.processing.math.indicators.indicator_engine import compute_ohlcv_indicators
+from processing_signals.processing.math.indicators.indicator_engine import IndicatorEngine
 from processing_signals.processing.math.microstructure import orderbook_metrics, event_flow_metrics, wall_score_from_orderbook
 
 
@@ -56,6 +57,7 @@ class ProcessingMathEngine:
                     )
 
                 result["statistics"] = statistics
+                regimes["regime_flags"] = build_regime_flags(regimes, statistics)
                 result["statistical_regimes"] = regimes
                 result["feature_snapshot"].update(statistics.get("last", {}))
                 result["warnings"].extend(
@@ -66,10 +68,30 @@ class ProcessingMathEngine:
 
         return result
 
+    def compute_view_math(self, transforms: dict[str, Any]) -> dict[str, Any]:
+        """Compute math payloads for transformed OHLC-compatible views."""
+        view_math: dict[str, Any] = {}
+        indicator_engine = IndicatorEngine()
+        for view_name in ["bars", "candlestick_derived"]:
+            records = transforms.get(view_name, {}).get("records", [])
+            if not records:
+                continue
+            frame = pd.DataFrame(records)
+            if not indicator_engine.is_ohlc_compatible(frame):
+                continue
+            technical = indicator_engine.compute(frame)
+            view_math[view_name] = {
+                "technical_indicators": {
+                    "columns": list(technical.columns),
+                    "last": last_valid_dict(technical),
+                }
+            }
+        return view_math
+
     @staticmethod
     def _base_result() -> dict[str, Any]:
         return {
-            "technical": {},
+            "technical_indicators": {},
             "statistics": {},
             "statistical_regimes": {},
             "microstructure": {},
@@ -85,7 +107,7 @@ class ProcessingMathEngine:
 
         if decision.get("apply_technical_indicators"):
             technical_df = compute_ohlcv_indicators(df)
-            result["technical"] = {
+            result["technical_indicators"] = {
                 "last": last_valid_dict(technical_df),
                 "columns": list(technical_df.columns),
             }
@@ -110,7 +132,7 @@ class ProcessingMathEngine:
         feature_snapshot.update({f"ask_notional_{k}": v for k, v in ask_notional_stats.items()})
 
         return {
-            "technical": {},
+            "technical_indicators": {},
             "statistics": {},
             "statistical_regimes": {},
             "microstructure": micro,
@@ -131,7 +153,7 @@ class ProcessingMathEngine:
             feature_snapshot.update({f"{name}_{k}": v for k, v in summary.items()})
 
         return {
-            "technical": {},
+            "technical_indicators": {},
             "statistics": {},
             "statistical_regimes": {},
             "microstructure": flow,

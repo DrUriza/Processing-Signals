@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 import json
 from pathlib import Path
-import zipfile
 from typing import Any
 
 
@@ -19,7 +18,6 @@ class JsonInputLoader:
 
     Accepts:
       - a single JSON file
-      - a ZIP containing JSON files
       - a directory containing JSON files
 
     It does not interpret trading semantics. It only loads raw JSON payloads.
@@ -35,9 +33,6 @@ class JsonInputLoader:
         if self.input_path.is_dir():
             return self._load_directory(self.input_path)
 
-        if self.input_path.suffix.lower() == ".zip":
-            return self._load_zip(self.input_path)
-
         if self.input_path.suffix.lower() == ".json":
             payload = self._load_json_file(self.input_path)
             return [InputRecord(source_name=self.input_path.name, payload=payload)]
@@ -50,20 +45,6 @@ class JsonInputLoader:
             records.append(InputRecord(source_name=path.name, payload=self._load_json_file(path)))
         if not records:
             raise ValueError(f"No JSON files found in directory: {directory}")
-        return records
-
-    def _load_zip(self, zip_path: Path) -> list[InputRecord]:
-        records: list[InputRecord] = []
-        with zipfile.ZipFile(zip_path, "r") as archive:
-            for name in sorted(archive.namelist()):
-                if not name.lower().endswith(".json"):
-                    continue
-                with archive.open(name) as fh:
-                    payload = json.load(fh)
-                records.append(InputRecord(source_name=Path(name).name, payload=payload))
-
-        if not records:
-            raise ValueError(f"No JSON files found in ZIP: {zip_path}")
         return records
 
     @staticmethod

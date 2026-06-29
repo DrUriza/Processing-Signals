@@ -9,15 +9,18 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from processing_signals.classification.output_classifier import OutputClassifier
-from processing_signals.input.json_loader import JsonInputLoader
+from processing_signals.input.input_reader import InputReader
+from processing_signals.input.json_loader import InputRecord
 from processing_signals.output.family_output_builder import FamilyOutputBuilder
 from processing_signals.output.output_builder import OutputBuilder
 from processing_signals.output.output_family_rules import resolve_output_family
 from processing_signals.output.output_validator import OutputValidator
-from processing_signals.processing.data_type_detector import DataTypeDetector
+from processing_signals.processing.detection.data_type_detector import DataTypeDetector
 from processing_signals.processing.indicator_decision_engine import IndicatorDecisionEngine
+from processing_signals.processing.transforms.transform_engine import TransformEngine
+from processing_signals.processing.vectorization.vectorizer import Vectorizer
 from processing_signals.processing.math.math_engine import ProcessingMathEngine
-from processing_signals.processing.normalizer import Normalizer
+from processing_signals.processing.normalization.normalizer import Normalizer
 from processing_signals.processing.patterns.pattern_engine import PatternEngine
 
 
@@ -36,9 +39,11 @@ class MainPipeline:
         self.output_path = Path(output_path)
         self.write_validation_report = write_validation_report
         self.write_manifest = write_manifest
-        self.loader = JsonInputLoader(self.input_path)
+        self.loader = InputReader(self.input_path)
         self.detector = DataTypeDetector()
         self.normalizer = Normalizer()
+        self.vectorizer = Vectorizer()
+        self.transform_engine = TransformEngine()
         self.decision_engine = IndicatorDecisionEngine()
         self.math_engine = ProcessingMathEngine()
         self.pattern_engine = PatternEngine()
@@ -46,8 +51,14 @@ class MainPipeline:
         self.output_builder = OutputBuilder(max_rows=max_rows)
 
     def run(self) -> dict[str, Any]:
-        records = self.loader.load()
-        blocks = [self._process_record(record.source_name, record.payload) for record in records]
+        raw_payloads = self.loader.load()
+        detected_blocks = self._detect_blocks(raw_payloads)
+        normalized_blocks = self._normalize_blocks(detected_blocks)
+        vectorized_blocks = self._vectorize_blocks(normalized_blocks)
+        transformed_blocks = self._transform_blocks(vectorized_blocks)
+        math_blocks = self._run_math(transformed_blocks)
+        pattern_blocks = self._run_patterns(math_blocks)
+        blocks = self._classify_blocks(pattern_blocks)
         family_output_dir = self.output_path.parent / "families"
 
         for block in blocks:
@@ -110,23 +121,65 @@ class MainPipeline:
         self.output_builder.write_json(payload, self.output_path)
         return payload
 
-    def _process_record(self, source_name: str, payload: dict[str, Any]) -> dict[str, Any]:
-        detected = self.detector.detect(payload, source_name=source_name)
-        normalized = self.normalizer.normalize(payload, detected)
-        decision = self.decision_engine.decide(detected, normalized)
-        math_result = self.math_engine.compute(normalized, decision)
-        patterns = self.pattern_engine.detect(normalized, math_result, decision)
-        routes = self.classifier.classify(detected, normalized, math_result, patterns, decision)
+    def _detect_blocks(self, raw_payloads: list[InputRecord]) -> list[dict[str, Any]]:
+        return [
+            {
+                "source_name": record.source_name,
+                "raw_payload": record.payload,
+                "detected": self.detector.detect(record.payload, source_name=record.source_name),
+            }
+            for record in raw_payloads
+        ]
 
-        return {
-            "source_name": source_name,
-            "detected": detected,
-            "normalized": normalized,
-            "decision": decision,
-            "math": math_result,
-            "patterns": patterns,
-            "routes": routes,
-        }
+    def _normalize_blocks(self, detected_blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        for block in detected_blocks:
+            block["normalized"] = self.normalizer.normalize(block["raw_payload"], block["detected"])
+        return detected_blocks
+
+    def _vectorize_blocks(self, normalized_blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        for block in normalized_blocks:
+            block["vectorized"] = self.vectorizer.vectorize(block["normalized"], block["detected"])
+        return normalized_blocks
+
+    def _transform_blocks(self, vectorized_blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        for block in vectorized_blocks:
+            block["transforms"] = self.transform_engine.transform(
+                block["normalized"],
+                block["detected"],
+                block["vectorized"],
+            )
+        return vectorized_blocks
+
+    def _run_math(self, transformed_blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        for block in transformed_blocks:
+            decision = self.decision_engine.decide(block["detected"], block["normalized"])
+            block["decision"] = decision
+            block["math"] = self.math_engine.compute(block["normalized"], decision)
+            block["view_math"] = self.math_engine.compute_view_math(block["transforms"])
+        return transformed_blocks
+
+    def _run_patterns(self, math_blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        for block in math_blocks:
+            block["patterns"] = self.pattern_engine.detect(
+                block["normalized"],
+                block["math"],
+                block["decision"],
+                transforms=block.get("transforms", {}),
+                view_math=block.get("view_math", {}),
+            )
+        return math_blocks
+
+    def _classify_blocks(self, pattern_blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        for block in pattern_blocks:
+            block["routes"] = self.classifier.classify(
+                block["detected"],
+                block["normalized"],
+                block["math"],
+                block["patterns"],
+                block["decision"],
+            )
+            block.pop("raw_payload", None)
+        return pattern_blocks
 
 
 def parse_args() -> argparse.Namespace:

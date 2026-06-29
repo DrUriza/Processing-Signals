@@ -118,6 +118,7 @@ class OutputBuilder:
             "records_with_statistical_regimes": 0,
             "records_with_microstructure": 0,
             "records_with_feature_snapshot": 0,
+            "records_with_regime_flags": 0,
             "statistics": {
                 "numeric_column_counts": {},
                 "windows": [],
@@ -136,7 +137,7 @@ class OutputBuilder:
 
         for block in blocks:
             math_payload = block.get("math", {})
-            technical = math_payload.get("technical")
+            technical = math_payload.get("technical_indicators")
             statistics = math_payload.get("statistics") or {}
             regimes = math_payload.get("statistical_regimes") or {}
             microstructure = math_payload.get("microstructure")
@@ -155,6 +156,8 @@ class OutputBuilder:
                     statistics_references.add(reference_column)
             if regimes:
                 summary["records_with_statistical_regimes"] += 1
+                if regimes.get("regime_flags"):
+                    summary["records_with_regime_flags"] += 1
                 for column in regimes.get("numeric_columns", []):
                     counts = summary["statistical_regimes"]["numeric_column_counts"]
                     counts[column] = counts.get(column, 0) + 1
