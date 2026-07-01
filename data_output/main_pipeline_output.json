@@ -2,763 +2,97 @@
   "pipeline": "Processing-Signals MainPipeline",
   "version": "0.1.0",
   "summary": {
-    "records_processed": 45,
+    "records_processed": 4,
     "data_types": {
-      "cvd": 4,
-      "etf_and_exchange_flows": 4,
-      "long_short_liquidations": 4,
-      "long_short_ratio": 4,
-      "mining_network_health": 4,
-      "candlestick": 4,
-      "onchain_holder_behavior": 4,
-      "open_interest_and_funding": 4,
-      "orderbook_conventional": 4,
-      "orderbook_large_trades": 4,
-      "orderbook_whale_orders": 4,
-      "manifest": 1
+      "candlestick": 4
     }
   },
-  "records_processed": 45,
+  "records_processed": 4,
   "data_types": {
-    "cvd": 4,
-    "etf_and_exchange_flows": 4,
-    "long_short_liquidations": 4,
-    "long_short_ratio": 4,
-    "mining_network_health": 4,
-    "candlestick": 4,
-    "onchain_holder_behavior": 4,
-    "open_interest_and_funding": 4,
-    "orderbook_conventional": 4,
-    "orderbook_large_trades": 4,
-    "orderbook_whale_orders": 4,
-    "manifest": 1
+    "candlestick": 4
   },
   "block_index": [
     {
-      "source_name": "btc_cvd_15m_600.json",
-      "data_type": "cvd",
-      "symbol": "BTCUSDT",
-      "timeframe": "15m",
-      "family_key": "volume_orderflow",
-      "output_shape": "cvd_time_series",
-      "output_filename": "cvd_time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\volume_orderflow\\cvd_time_series.json",
-        "data_output\\families\\volume_orderflow\\cvd_candlestick_derived.json",
-        "data_output\\families\\volume_orderflow\\orderflow_features.json"
-      ]
-    },
-    {
-      "source_name": "btc_cvd_1m_600.json",
-      "data_type": "cvd",
-      "symbol": "BTCUSDT",
-      "timeframe": "1m",
-      "family_key": "volume_orderflow",
-      "output_shape": "cvd_time_series",
-      "output_filename": "cvd_time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\volume_orderflow\\cvd_time_series.json",
-        "data_output\\families\\volume_orderflow\\cvd_candlestick_derived.json",
-        "data_output\\families\\volume_orderflow\\orderflow_features.json"
-      ]
-    },
-    {
-      "source_name": "btc_cvd_4h_600.json",
-      "data_type": "cvd",
-      "symbol": "BTCUSDT",
-      "timeframe": "4h",
-      "family_key": "volume_orderflow",
-      "output_shape": "cvd_time_series",
-      "output_filename": "cvd_time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\volume_orderflow\\cvd_time_series.json",
-        "data_output\\families\\volume_orderflow\\cvd_candlestick_derived.json",
-        "data_output\\families\\volume_orderflow\\orderflow_features.json"
-      ]
-    },
-    {
-      "source_name": "btc_cvd_5m_600.json",
-      "data_type": "cvd",
-      "symbol": "BTCUSDT",
-      "timeframe": "5m",
-      "family_key": "volume_orderflow",
-      "output_shape": "cvd_time_series",
-      "output_filename": "cvd_time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\volume_orderflow\\cvd_time_series.json",
-        "data_output\\families\\volume_orderflow\\cvd_candlestick_derived.json",
-        "data_output\\families\\volume_orderflow\\orderflow_features.json"
-      ]
-    },
-    {
-      "source_name": "btc_etf_and_exchange_flows_15m_600.json",
-      "data_type": "etf_and_exchange_flows",
-      "symbol": "BTCUSDT",
-      "timeframe": "15m",
-      "family_key": "institutional_flows",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\institutional_flows\\time_series.json",
-        "data_output\\families\\institutional_flows\\bars.json",
-        "data_output\\families\\institutional_flows\\event_list.json",
-        "data_output\\families\\institutional_flows\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_etf_and_exchange_flows_1m_600.json",
-      "data_type": "etf_and_exchange_flows",
-      "symbol": "BTCUSDT",
-      "timeframe": "1m",
-      "family_key": "institutional_flows",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\institutional_flows\\time_series.json",
-        "data_output\\families\\institutional_flows\\bars.json",
-        "data_output\\families\\institutional_flows\\event_list.json",
-        "data_output\\families\\institutional_flows\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_etf_and_exchange_flows_4h_600.json",
-      "data_type": "etf_and_exchange_flows",
-      "symbol": "BTCUSDT",
-      "timeframe": "4h",
-      "family_key": "institutional_flows",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\institutional_flows\\time_series.json",
-        "data_output\\families\\institutional_flows\\bars.json",
-        "data_output\\families\\institutional_flows\\event_list.json",
-        "data_output\\families\\institutional_flows\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_etf_and_exchange_flows_5m_600.json",
-      "data_type": "etf_and_exchange_flows",
-      "symbol": "BTCUSDT",
-      "timeframe": "5m",
-      "family_key": "institutional_flows",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\institutional_flows\\time_series.json",
-        "data_output\\families\\institutional_flows\\bars.json",
-        "data_output\\families\\institutional_flows\\event_list.json",
-        "data_output\\families\\institutional_flows\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_long_short_liquidations_15m_600.json",
-      "data_type": "long_short_liquidations",
-      "symbol": "BTCUSDT",
-      "timeframe": "15m",
-      "family_key": "liquidations",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidations\\time_series.json",
-        "data_output\\families\\liquidations\\bars.json",
-        "data_output\\families\\liquidations\\event_list.json",
-        "data_output\\families\\liquidations\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_long_short_liquidations_1m_600.json",
-      "data_type": "long_short_liquidations",
-      "symbol": "BTCUSDT",
-      "timeframe": "1m",
-      "family_key": "liquidations",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidations\\time_series.json",
-        "data_output\\families\\liquidations\\bars.json",
-        "data_output\\families\\liquidations\\event_list.json",
-        "data_output\\families\\liquidations\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_long_short_liquidations_4h_600.json",
-      "data_type": "long_short_liquidations",
-      "symbol": "BTCUSDT",
-      "timeframe": "4h",
-      "family_key": "liquidations",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidations\\time_series.json",
-        "data_output\\families\\liquidations\\bars.json",
-        "data_output\\families\\liquidations\\event_list.json",
-        "data_output\\families\\liquidations\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_long_short_liquidations_5m_600.json",
-      "data_type": "long_short_liquidations",
-      "symbol": "BTCUSDT",
-      "timeframe": "5m",
-      "family_key": "liquidations",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidations\\time_series.json",
-        "data_output\\families\\liquidations\\bars.json",
-        "data_output\\families\\liquidations\\event_list.json",
-        "data_output\\families\\liquidations\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_long_short_ratio_15m_600.json",
-      "data_type": "long_short_ratio",
-      "symbol": "BTCUSDT",
-      "timeframe": "15m",
-      "family_key": "sentiment_positioning",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\sentiment_positioning\\time_series.json",
-        "data_output\\families\\sentiment_positioning\\bars.json",
-        "data_output\\families\\sentiment_positioning\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_long_short_ratio_1m_600.json",
-      "data_type": "long_short_ratio",
-      "symbol": "BTCUSDT",
-      "timeframe": "1m",
-      "family_key": "sentiment_positioning",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\sentiment_positioning\\time_series.json",
-        "data_output\\families\\sentiment_positioning\\bars.json",
-        "data_output\\families\\sentiment_positioning\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_long_short_ratio_4h_600.json",
-      "data_type": "long_short_ratio",
-      "symbol": "BTCUSDT",
-      "timeframe": "4h",
-      "family_key": "sentiment_positioning",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\sentiment_positioning\\time_series.json",
-        "data_output\\families\\sentiment_positioning\\bars.json",
-        "data_output\\families\\sentiment_positioning\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_long_short_ratio_5m_600.json",
-      "data_type": "long_short_ratio",
-      "symbol": "BTCUSDT",
-      "timeframe": "5m",
-      "family_key": "sentiment_positioning",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\sentiment_positioning\\time_series.json",
-        "data_output\\families\\sentiment_positioning\\bars.json",
-        "data_output\\families\\sentiment_positioning\\candlestick_derived.json"
-      ]
-    },
-    {
-      "source_name": "btc_mining_network_health_15m_600.json",
-      "data_type": "mining_network_health",
-      "symbol": "BTCUSDT",
-      "timeframe": "15m",
-      "family_key": "mining_network_health",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\mining_network_health\\time_series.json",
-        "data_output\\families\\mining_network_health\\bars.json",
-        "data_output\\families\\mining_network_health\\event_list.json",
-        "data_output\\families\\mining_network_health\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_mining_network_health_1m_600.json",
-      "data_type": "mining_network_health",
-      "symbol": "BTCUSDT",
-      "timeframe": "1m",
-      "family_key": "mining_network_health",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\mining_network_health\\time_series.json",
-        "data_output\\families\\mining_network_health\\bars.json",
-        "data_output\\families\\mining_network_health\\event_list.json",
-        "data_output\\families\\mining_network_health\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_mining_network_health_4h_600.json",
-      "data_type": "mining_network_health",
-      "symbol": "BTCUSDT",
-      "timeframe": "4h",
-      "family_key": "mining_network_health",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\mining_network_health\\time_series.json",
-        "data_output\\families\\mining_network_health\\bars.json",
-        "data_output\\families\\mining_network_health\\event_list.json",
-        "data_output\\families\\mining_network_health\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_mining_network_health_5m_600.json",
-      "data_type": "mining_network_health",
-      "symbol": "BTCUSDT",
-      "timeframe": "5m",
-      "family_key": "mining_network_health",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\mining_network_health\\time_series.json",
-        "data_output\\families\\mining_network_health\\bars.json",
-        "data_output\\families\\mining_network_health\\event_list.json",
-        "data_output\\families\\mining_network_health\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_ohlcv_15m_600.json",
+      "source_name": "synthetic_synthetic_ohlcv_15m.json",
       "data_type": "candlestick",
-      "symbol": "BTCUSDT",
-      "timeframe": "15m",
-      "family_key": "prices_ohlcv",
-      "output_shape": "candlestick",
-      "output_filename": "candlestick.json",
-      "family_output_paths": [
-        "data_output\\families\\prices_ohlcv\\candlestick.json",
-        "data_output\\families\\prices_ohlcv\\time_series.json",
-        "data_output\\families\\volume_orderflow\\volume_features.json"
-      ]
-    },
-    {
-      "source_name": "btc_ohlcv_1m_600.json",
-      "data_type": "candlestick",
-      "symbol": "BTCUSDT",
-      "timeframe": "1m",
-      "family_key": "prices_ohlcv",
-      "output_shape": "candlestick",
-      "output_filename": "candlestick.json",
-      "family_output_paths": [
-        "data_output\\families\\prices_ohlcv\\candlestick.json",
-        "data_output\\families\\prices_ohlcv\\time_series.json",
-        "data_output\\families\\volume_orderflow\\volume_features.json"
-      ]
-    },
-    {
-      "source_name": "btc_ohlcv_4h_600.json",
-      "data_type": "candlestick",
-      "symbol": "BTCUSDT",
-      "timeframe": "4h",
-      "family_key": "prices_ohlcv",
-      "output_shape": "candlestick",
-      "output_filename": "candlestick.json",
-      "family_output_paths": [
-        "data_output\\families\\prices_ohlcv\\candlestick.json",
-        "data_output\\families\\prices_ohlcv\\time_series.json",
-        "data_output\\families\\volume_orderflow\\volume_features.json"
-      ]
-    },
-    {
-      "source_name": "btc_ohlcv_5m_600.json",
-      "data_type": "candlestick",
-      "symbol": "BTCUSDT",
-      "timeframe": "5m",
-      "family_key": "prices_ohlcv",
-      "output_shape": "candlestick",
-      "output_filename": "candlestick.json",
-      "family_output_paths": [
-        "data_output\\families\\prices_ohlcv\\candlestick.json",
-        "data_output\\families\\prices_ohlcv\\time_series.json",
-        "data_output\\families\\volume_orderflow\\volume_features.json"
-      ]
-    },
-    {
-      "source_name": "btc_onchain_holder_behavior_15m_600.json",
-      "data_type": "onchain_holder_behavior",
-      "symbol": "BTCUSDT",
-      "timeframe": "15m",
-      "family_key": "onchain_holder_behavior",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\onchain_holder_behavior\\time_series.json",
-        "data_output\\families\\onchain_holder_behavior\\bars.json",
-        "data_output\\families\\onchain_holder_behavior\\event_list.json",
-        "data_output\\families\\onchain_holder_behavior\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_onchain_holder_behavior_1m_600.json",
-      "data_type": "onchain_holder_behavior",
-      "symbol": "BTCUSDT",
-      "timeframe": "1m",
-      "family_key": "onchain_holder_behavior",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\onchain_holder_behavior\\time_series.json",
-        "data_output\\families\\onchain_holder_behavior\\bars.json",
-        "data_output\\families\\onchain_holder_behavior\\event_list.json",
-        "data_output\\families\\onchain_holder_behavior\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_onchain_holder_behavior_4h_600.json",
-      "data_type": "onchain_holder_behavior",
-      "symbol": "BTCUSDT",
-      "timeframe": "4h",
-      "family_key": "onchain_holder_behavior",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\onchain_holder_behavior\\time_series.json",
-        "data_output\\families\\onchain_holder_behavior\\bars.json",
-        "data_output\\families\\onchain_holder_behavior\\event_list.json",
-        "data_output\\families\\onchain_holder_behavior\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_onchain_holder_behavior_5m_600.json",
-      "data_type": "onchain_holder_behavior",
-      "symbol": "BTCUSDT",
-      "timeframe": "5m",
-      "family_key": "onchain_holder_behavior",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\onchain_holder_behavior\\time_series.json",
-        "data_output\\families\\onchain_holder_behavior\\bars.json",
-        "data_output\\families\\onchain_holder_behavior\\event_list.json",
-        "data_output\\families\\onchain_holder_behavior\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_open_interest_and_funding_15m_600.json",
-      "data_type": "open_interest_and_funding",
-      "symbol": "BTCUSDT",
-      "timeframe": "15m",
-      "family_key": "derivatives_open_interest",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\derivatives_open_interest\\time_series.json",
-        "data_output\\families\\derivatives_open_interest\\candlestick_derived.json",
-        "data_output\\families\\derivatives_open_interest\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_open_interest_and_funding_1m_600.json",
-      "data_type": "open_interest_and_funding",
-      "symbol": "BTCUSDT",
-      "timeframe": "1m",
-      "family_key": "derivatives_open_interest",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\derivatives_open_interest\\time_series.json",
-        "data_output\\families\\derivatives_open_interest\\candlestick_derived.json",
-        "data_output\\families\\derivatives_open_interest\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_open_interest_and_funding_4h_600.json",
-      "data_type": "open_interest_and_funding",
-      "symbol": "BTCUSDT",
-      "timeframe": "4h",
-      "family_key": "derivatives_open_interest",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\derivatives_open_interest\\time_series.json",
-        "data_output\\families\\derivatives_open_interest\\candlestick_derived.json",
-        "data_output\\families\\derivatives_open_interest\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_open_interest_and_funding_5m_600.json",
-      "data_type": "open_interest_and_funding",
-      "symbol": "BTCUSDT",
-      "timeframe": "5m",
-      "family_key": "derivatives_open_interest",
-      "output_shape": "time_series",
-      "output_filename": "time_series.json",
-      "family_output_paths": [
-        "data_output\\families\\derivatives_open_interest\\time_series.json",
-        "data_output\\families\\derivatives_open_interest\\candlestick_derived.json",
-        "data_output\\families\\derivatives_open_interest\\regimes.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_conventional_15m_600.json",
-      "data_type": "orderbook_conventional",
-      "symbol": "BTCUSDT",
-      "timeframe": "15m",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "conventional_orderbook",
-      "output_filename": "conventional_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_conventional_1m_600.json",
-      "data_type": "orderbook_conventional",
-      "symbol": "BTCUSDT",
-      "timeframe": "1m",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "conventional_orderbook",
-      "output_filename": "conventional_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_conventional_4h_600.json",
-      "data_type": "orderbook_conventional",
-      "symbol": "BTCUSDT",
-      "timeframe": "4h",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "conventional_orderbook",
-      "output_filename": "conventional_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_conventional_5m_600.json",
-      "data_type": "orderbook_conventional",
-      "symbol": "BTCUSDT",
-      "timeframe": "5m",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "conventional_orderbook",
-      "output_filename": "conventional_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_large_trades_15m_600.json",
-      "data_type": "orderbook_large_trades",
-      "symbol": "BTCUSDT",
-      "timeframe": "15m",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "large_trades_orderbook",
-      "output_filename": "large_trades_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json",
-        "data_output\\families\\liquidity_microstructure\\event_list.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_large_trades_1m_600.json",
-      "data_type": "orderbook_large_trades",
-      "symbol": "BTCUSDT",
-      "timeframe": "1m",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "large_trades_orderbook",
-      "output_filename": "large_trades_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json",
-        "data_output\\families\\liquidity_microstructure\\event_list.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_large_trades_4h_600.json",
-      "data_type": "orderbook_large_trades",
-      "symbol": "BTCUSDT",
-      "timeframe": "4h",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "large_trades_orderbook",
-      "output_filename": "large_trades_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json",
-        "data_output\\families\\liquidity_microstructure\\event_list.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_large_trades_5m_600.json",
-      "data_type": "orderbook_large_trades",
-      "symbol": "BTCUSDT",
-      "timeframe": "5m",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "large_trades_orderbook",
-      "output_filename": "large_trades_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json",
-        "data_output\\families\\liquidity_microstructure\\event_list.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_whale_orders_15m_600.json",
-      "data_type": "orderbook_whale_orders",
-      "symbol": "BTCUSDT",
-      "timeframe": "15m",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "whale_orders_orderbook",
-      "output_filename": "whale_orders_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json",
-        "data_output\\families\\liquidity_microstructure\\event_list.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_whale_orders_1m_600.json",
-      "data_type": "orderbook_whale_orders",
-      "symbol": "BTCUSDT",
-      "timeframe": "1m",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "whale_orders_orderbook",
-      "output_filename": "whale_orders_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json",
-        "data_output\\families\\liquidity_microstructure\\event_list.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_whale_orders_4h_600.json",
-      "data_type": "orderbook_whale_orders",
-      "symbol": "BTCUSDT",
-      "timeframe": "4h",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "whale_orders_orderbook",
-      "output_filename": "whale_orders_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json",
-        "data_output\\families\\liquidity_microstructure\\event_list.json"
-      ]
-    },
-    {
-      "source_name": "btc_orderbook_whale_orders_5m_600.json",
-      "data_type": "orderbook_whale_orders",
-      "symbol": "BTCUSDT",
-      "timeframe": "5m",
-      "family_key": "liquidity_microstructure",
-      "output_shape": "whale_orders_orderbook",
-      "output_filename": "whale_orders_orderbook.json",
-      "family_output_paths": [
-        "data_output\\families\\liquidity_microstructure\\orderbook.json",
-        "data_output\\families\\liquidity_microstructure\\time_series.json",
-        "data_output\\families\\liquidity_microstructure\\bars.json",
-        "data_output\\families\\liquidity_microstructure\\event_list.json"
-      ]
-    },
-    {
-      "source_name": "manifest.json",
-      "data_type": "manifest",
       "symbol": null,
       "timeframe": null,
-      "family_key": "metadata",
-      "output_shape": "manifest",
-      "output_filename": "manifest.json"
+      "family_key": "prices_ohlcv",
+      "output_shape": "candlestick",
+      "output_filename": "candlestick.json",
+      "family_output_paths": [
+        "data_output\\families\\prices_ohlcv\\candlestick.json",
+        "data_output\\families\\prices_ohlcv\\time_series.json",
+        "data_output\\families\\volume_orderflow\\volume_features.json"
+      ]
+    },
+    {
+      "source_name": "synthetic_synthetic_ohlcv_1m.json",
+      "data_type": "candlestick",
+      "symbol": null,
+      "timeframe": null,
+      "family_key": "prices_ohlcv",
+      "output_shape": "candlestick",
+      "output_filename": "candlestick.json",
+      "family_output_paths": [
+        "data_output\\families\\prices_ohlcv\\candlestick.json",
+        "data_output\\families\\prices_ohlcv\\time_series.json",
+        "data_output\\families\\volume_orderflow\\volume_features.json"
+      ]
+    },
+    {
+      "source_name": "synthetic_synthetic_ohlcv_4h.json",
+      "data_type": "candlestick",
+      "symbol": null,
+      "timeframe": null,
+      "family_key": "prices_ohlcv",
+      "output_shape": "candlestick",
+      "output_filename": "candlestick.json",
+      "family_output_paths": [
+        "data_output\\families\\prices_ohlcv\\candlestick.json",
+        "data_output\\families\\prices_ohlcv\\time_series.json",
+        "data_output\\families\\volume_orderflow\\volume_features.json"
+      ]
+    },
+    {
+      "source_name": "synthetic_synthetic_ohlcv_5m.json",
+      "data_type": "candlestick",
+      "symbol": null,
+      "timeframe": null,
+      "family_key": "prices_ohlcv",
+      "output_shape": "candlestick",
+      "output_filename": "candlestick.json",
+      "family_output_paths": [
+        "data_output\\families\\prices_ohlcv\\candlestick.json",
+        "data_output\\families\\prices_ohlcv\\time_series.json",
+        "data_output\\families\\volume_orderflow\\volume_features.json"
+      ]
     }
   ],
   "math_summary": {
     "records_with_technical": 4,
-    "records_with_statistics": 44,
-    "records_with_statistical_regimes": 44,
-    "records_with_microstructure": 12,
-    "records_with_feature_snapshot": 44,
-    "records_with_regime_flags": 44,
+    "records_with_statistics": 4,
+    "records_with_statistical_regimes": 4,
+    "records_with_microstructure": 0,
+    "records_with_feature_snapshot": 4,
+    "records_with_regime_flags": 4,
+    "technical_indicators": {
+      "records_with_base_technical": 4,
+      "records_with_view_technical": 4,
+      "records_with_candlestick_derived_technical": 4,
+      "records_with_total_technical_outputs": 4,
+      "technical_output_views": [
+        "base",
+        "candlestick_derived"
+      ]
+    },
     "statistics": {
       "numeric_column_counts": {
-        "cvd": 4,
-        "delta": 4,
-        "buy_volume": 4,
-        "sell_volume": 4,
-        "total_volume": 4,
-        "exchange_inflow": 4,
-        "exchange_outflow": 4,
-        "exchange_netflow": 4,
-        "etf_inflow_usd": 4,
-        "etf_outflow_usd": 4,
-        "etf_netflow_usd": 4,
-        "cumulative_exchange_netflow": 4,
-        "cumulative_etf_netflow_usd": 4,
-        "long_liquidations_usd": 4,
-        "short_liquidations_usd": 4,
-        "total_liquidations_usd": 4,
-        "liquidation_imbalance": 4,
-        "long_short_ratio": 4,
-        "long_account_pct": 4,
-        "short_account_pct": 4,
-        "long_position_pct": 4,
-        "short_position_pct": 4,
-        "miner_ratio": 4,
-        "hash_rate": 4,
-        "miner_inflow_btc": 4,
-        "miner_outflow_btc": 4,
-        "miner_netflow_btc": 4,
-        "miner_reserve_btc": 4,
-        "difficulty": 4,
-        "network_health_score": 4,
-        "miner_pressure_score": 4,
         "open": 4,
         "high": 4,
         "low": 4,
         "close": 4,
-        "volume": 4,
-        "notional_volume": 4,
-        "mvrv": 4,
-        "nvt": 4,
-        "sopr": 4,
-        "long_term_holder_supply": 4,
-        "short_term_holder_supply": 4,
-        "accumulation_score": 4,
-        "distribution_score": 4,
-        "exchange_balance_btc": 4,
-        "supply_in_profit": 4,
-        "supply_in_loss": 4,
-        "realized_cap_usd": 4,
-        "open_interest_usd": 4,
-        "open_interest_btc": 4,
-        "oi_delta": 4,
-        "funding_rate": 4,
-        "funding_rate_annualized": 4,
-        "mid_price": 4,
-        "spread": 4,
-        "bid_liquidity_usd": 4,
-        "ask_liquidity_usd": 4,
-        "orderbook_imbalance": 4,
-        "levels_per_side": 4,
-        "price": 8,
-        "quantity_btc": 8,
-        "notional_usdt": 8,
-        "classification_threshold_usd": 8,
-        "placed_at": 4,
-        "active_duration_seconds": 4,
-        "active_duration_minutes": 4
+        "volume": 4
       },
       "windows": [
         20,
@@ -766,93 +100,23 @@
         100
       ],
       "reference_columns": [
-        "close",
-        "cvd",
-        "exchange_inflow",
-        "long_liquidations_usd",
-        "long_short_ratio",
-        "mid_price",
-        "miner_ratio",
-        "mvrv",
-        "open_interest_usd",
-        "price"
+        "close"
       ]
     },
     "statistical_regimes": {
       "numeric_column_counts": {
-        "cvd": 4,
-        "delta": 4,
-        "buy_volume": 4,
-        "sell_volume": 4,
-        "total_volume": 4,
-        "exchange_inflow": 4,
-        "exchange_outflow": 4,
-        "exchange_netflow": 4,
-        "etf_inflow_usd": 4,
-        "etf_outflow_usd": 4,
-        "etf_netflow_usd": 4,
-        "cumulative_exchange_netflow": 4,
-        "cumulative_etf_netflow_usd": 4,
-        "long_liquidations_usd": 4,
-        "short_liquidations_usd": 4,
-        "total_liquidations_usd": 4,
-        "liquidation_imbalance": 4,
-        "long_short_ratio": 4,
-        "long_account_pct": 4,
-        "short_account_pct": 4,
-        "long_position_pct": 4,
-        "short_position_pct": 4,
-        "miner_ratio": 4,
-        "hash_rate": 4,
-        "miner_inflow_btc": 4,
-        "miner_outflow_btc": 4,
-        "miner_netflow_btc": 4,
-        "miner_reserve_btc": 4,
-        "difficulty": 4,
-        "network_health_score": 4,
-        "miner_pressure_score": 4,
         "open": 4,
         "high": 4,
         "low": 4,
         "close": 4,
-        "volume": 4,
-        "notional_volume": 4,
-        "mvrv": 4,
-        "nvt": 4,
-        "sopr": 4,
-        "long_term_holder_supply": 4,
-        "short_term_holder_supply": 4,
-        "accumulation_score": 4,
-        "distribution_score": 4,
-        "exchange_balance_btc": 4,
-        "supply_in_profit": 4,
-        "supply_in_loss": 4,
-        "realized_cap_usd": 4,
-        "open_interest_usd": 4,
-        "open_interest_btc": 4,
-        "oi_delta": 4,
-        "funding_rate": 4,
-        "funding_rate_annualized": 4,
-        "mid_price": 4,
-        "spread": 4,
-        "bid_liquidity_usd": 4,
-        "ask_liquidity_usd": 4,
-        "orderbook_imbalance": 4,
-        "levels_per_side": 4,
-        "price": 8,
-        "quantity_btc": 8,
-        "notional_usdt": 8,
-        "classification_threshold_usd": 8,
-        "placed_at": 4,
-        "active_duration_seconds": 4,
-        "active_duration_minutes": 4
+        "volume": 4
       },
       "windows": [
         20,
         50,
         100
       ],
-      "records_with_last_regimes": 44
+      "records_with_last_regimes": 4
     }
   },
   "warnings": [],
@@ -872,7 +136,9 @@
     ],
     "active_families": [
       "prices_ohlcv",
-      "volume_orderflow",
+      "volume_orderflow"
+    ],
+    "inactive_families": [
       "liquidity_microstructure",
       "institutional_flows",
       "liquidations",
@@ -881,7 +147,6 @@
       "mining_network_health",
       "onchain_holder_behavior"
     ],
-    "inactive_families": [],
     "families": [
       {
         "family_key": "prices_ohlcv",
@@ -902,188 +167,8 @@
         "family_key": "volume_orderflow",
         "outputs": [
           {
-            "output_shape": "cvd_candlestick_derived",
-            "path": "data_output\\families\\volume_orderflow\\cvd_candlestick_derived.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "cvd_time_series",
-            "path": "data_output\\families\\volume_orderflow\\cvd_time_series.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "orderflow_features",
-            "path": "data_output\\families\\volume_orderflow\\orderflow_features.json",
-            "records_processed": 4
-          },
-          {
             "output_shape": "volume_features",
             "path": "data_output\\families\\volume_orderflow\\volume_features.json",
-            "records_processed": 4
-          }
-        ]
-      },
-      {
-        "family_key": "liquidity_microstructure",
-        "outputs": [
-          {
-            "output_shape": "bars",
-            "path": "data_output\\families\\liquidity_microstructure\\bars.json",
-            "records_processed": 12
-          },
-          {
-            "output_shape": "event_list",
-            "path": "data_output\\families\\liquidity_microstructure\\event_list.json",
-            "records_processed": 8
-          },
-          {
-            "output_shape": "orderbook",
-            "path": "data_output\\families\\liquidity_microstructure\\orderbook.json",
-            "records_processed": 12
-          },
-          {
-            "output_shape": "time_series",
-            "path": "data_output\\families\\liquidity_microstructure\\time_series.json",
-            "records_processed": 12
-          }
-        ]
-      },
-      {
-        "family_key": "institutional_flows",
-        "outputs": [
-          {
-            "output_shape": "bars",
-            "path": "data_output\\families\\institutional_flows\\bars.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "candlestick_derived",
-            "path": "data_output\\families\\institutional_flows\\candlestick_derived.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "event_list",
-            "path": "data_output\\families\\institutional_flows\\event_list.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "time_series",
-            "path": "data_output\\families\\institutional_flows\\time_series.json",
-            "records_processed": 4
-          }
-        ]
-      },
-      {
-        "family_key": "liquidations",
-        "outputs": [
-          {
-            "output_shape": "bars",
-            "path": "data_output\\families\\liquidations\\bars.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "candlestick_derived",
-            "path": "data_output\\families\\liquidations\\candlestick_derived.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "event_list",
-            "path": "data_output\\families\\liquidations\\event_list.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "time_series",
-            "path": "data_output\\families\\liquidations\\time_series.json",
-            "records_processed": 4
-          }
-        ]
-      },
-      {
-        "family_key": "derivatives_open_interest",
-        "outputs": [
-          {
-            "output_shape": "candlestick_derived",
-            "path": "data_output\\families\\derivatives_open_interest\\candlestick_derived.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "regimes",
-            "path": "data_output\\families\\derivatives_open_interest\\regimes.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "time_series",
-            "path": "data_output\\families\\derivatives_open_interest\\time_series.json",
-            "records_processed": 4
-          }
-        ]
-      },
-      {
-        "family_key": "sentiment_positioning",
-        "outputs": [
-          {
-            "output_shape": "bars",
-            "path": "data_output\\families\\sentiment_positioning\\bars.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "candlestick_derived",
-            "path": "data_output\\families\\sentiment_positioning\\candlestick_derived.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "time_series",
-            "path": "data_output\\families\\sentiment_positioning\\time_series.json",
-            "records_processed": 4
-          }
-        ]
-      },
-      {
-        "family_key": "mining_network_health",
-        "outputs": [
-          {
-            "output_shape": "bars",
-            "path": "data_output\\families\\mining_network_health\\bars.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "event_list",
-            "path": "data_output\\families\\mining_network_health\\event_list.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "regimes",
-            "path": "data_output\\families\\mining_network_health\\regimes.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "time_series",
-            "path": "data_output\\families\\mining_network_health\\time_series.json",
-            "records_processed": 4
-          }
-        ]
-      },
-      {
-        "family_key": "onchain_holder_behavior",
-        "outputs": [
-          {
-            "output_shape": "bars",
-            "path": "data_output\\families\\onchain_holder_behavior\\bars.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "event_list",
-            "path": "data_output\\families\\onchain_holder_behavior\\event_list.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "regimes",
-            "path": "data_output\\families\\onchain_holder_behavior\\regimes.json",
-            "records_processed": 4
-          },
-          {
-            "output_shape": "time_series",
-            "path": "data_output\\families\\onchain_holder_behavior\\time_series.json",
             "records_processed": 4
           }
         ]
@@ -1103,7 +188,9 @@
   ],
   "active_families": [
     "prices_ohlcv",
-    "volume_orderflow",
+    "volume_orderflow"
+  ],
+  "inactive_families": [
     "liquidity_microstructure",
     "institutional_flows",
     "liquidations",
@@ -1112,10 +199,9 @@
     "mining_network_health",
     "onchain_holder_behavior"
   ],
-  "inactive_families": [],
   "manifest_summary": {
     "output_shape": "manifest",
-    "records_processed": 1
+    "records_processed": 0
   },
   "validation": {
     "status": "ok",
@@ -1136,7 +222,9 @@
     ],
     "active_families": [
       "prices_ohlcv",
-      "volume_orderflow",
+      "volume_orderflow"
+    ],
+    "inactive_families": [
       "liquidity_microstructure",
       "institutional_flows",
       "liquidations",
@@ -1145,524 +233,21 @@
       "mining_network_health",
       "onchain_holder_behavior"
     ],
-    "inactive_families": [],
     "families_found": [
-      "derivatives_open_interest",
-      "institutional_flows",
-      "liquidations",
-      "liquidity_microstructure",
-      "mining_network_health",
-      "onchain_holder_behavior",
       "prices_ohlcv",
-      "sentiment_positioning",
       "volume_orderflow"
     ],
-    "missing_families": [],
+    "missing_families": [
+      "liquidity_microstructure",
+      "institutional_flows",
+      "liquidations",
+      "derivatives_open_interest",
+      "sentiment_positioning",
+      "mining_network_health",
+      "onchain_holder_behavior"
+    ],
     "unexpected_families": [],
     "families": [
-      {
-        "family_key": "derivatives_open_interest",
-        "json_count": 3,
-        "outputs": [
-          {
-            "path": "data_output\\families\\derivatives_open_interest\\candlestick_derived.json",
-            "status": "ok",
-            "output_shape": "candlestick_derived",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "open_interest_and_funding": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\derivatives_open_interest\\regimes.json",
-            "status": "ok",
-            "output_shape": "regimes",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "open_interest_and_funding": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\derivatives_open_interest\\time_series.json",
-            "status": "ok",
-            "output_shape": "time_series",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "open_interest_and_funding": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          }
-        ]
-      },
-      {
-        "family_key": "institutional_flows",
-        "json_count": 4,
-        "outputs": [
-          {
-            "path": "data_output\\families\\institutional_flows\\bars.json",
-            "status": "ok",
-            "output_shape": "bars",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "etf_and_exchange_flows": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\institutional_flows\\candlestick_derived.json",
-            "status": "ok",
-            "output_shape": "candlestick_derived",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "etf_and_exchange_flows": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\institutional_flows\\event_list.json",
-            "status": "ok",
-            "output_shape": "event_list",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "etf_and_exchange_flows": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\institutional_flows\\time_series.json",
-            "status": "ok",
-            "output_shape": "time_series",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "etf_and_exchange_flows": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          }
-        ]
-      },
-      {
-        "family_key": "liquidations",
-        "json_count": 4,
-        "outputs": [
-          {
-            "path": "data_output\\families\\liquidations\\bars.json",
-            "status": "ok",
-            "output_shape": "bars",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "long_short_liquidations": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\liquidations\\candlestick_derived.json",
-            "status": "ok",
-            "output_shape": "candlestick_derived",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "long_short_liquidations": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\liquidations\\event_list.json",
-            "status": "ok",
-            "output_shape": "event_list",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "long_short_liquidations": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\liquidations\\time_series.json",
-            "status": "ok",
-            "output_shape": "time_series",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "long_short_liquidations": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          }
-        ]
-      },
-      {
-        "family_key": "liquidity_microstructure",
-        "json_count": 4,
-        "outputs": [
-          {
-            "path": "data_output\\families\\liquidity_microstructure\\bars.json",
-            "status": "ok",
-            "output_shape": "bars",
-            "records_processed": 12,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "orderbook_conventional": 4,
-              "orderbook_large_trades": 4,
-              "orderbook_whale_orders": 4
-            },
-            "blocks_count": 12,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\liquidity_microstructure\\event_list.json",
-            "status": "ok",
-            "output_shape": "event_list",
-            "records_processed": 8,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "orderbook_large_trades": 4,
-              "orderbook_whale_orders": 4
-            },
-            "blocks_count": 8,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\liquidity_microstructure\\orderbook.json",
-            "status": "ok",
-            "output_shape": "orderbook",
-            "records_processed": 12,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "orderbook_conventional": 4,
-              "orderbook_large_trades": 4,
-              "orderbook_whale_orders": 4
-            },
-            "blocks_count": 12,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\liquidity_microstructure\\time_series.json",
-            "status": "ok",
-            "output_shape": "time_series",
-            "records_processed": 12,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "orderbook_conventional": 4,
-              "orderbook_large_trades": 4,
-              "orderbook_whale_orders": 4
-            },
-            "blocks_count": 12,
-            "block_issues": []
-          }
-        ]
-      },
-      {
-        "family_key": "mining_network_health",
-        "json_count": 4,
-        "outputs": [
-          {
-            "path": "data_output\\families\\mining_network_health\\bars.json",
-            "status": "ok",
-            "output_shape": "bars",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "mining_network_health": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\mining_network_health\\event_list.json",
-            "status": "ok",
-            "output_shape": "event_list",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "mining_network_health": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\mining_network_health\\regimes.json",
-            "status": "ok",
-            "output_shape": "regimes",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "mining_network_health": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\mining_network_health\\time_series.json",
-            "status": "ok",
-            "output_shape": "time_series",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "mining_network_health": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          }
-        ]
-      },
-      {
-        "family_key": "onchain_holder_behavior",
-        "json_count": 4,
-        "outputs": [
-          {
-            "path": "data_output\\families\\onchain_holder_behavior\\bars.json",
-            "status": "ok",
-            "output_shape": "bars",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "onchain_holder_behavior": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\onchain_holder_behavior\\event_list.json",
-            "status": "ok",
-            "output_shape": "event_list",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "onchain_holder_behavior": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\onchain_holder_behavior\\regimes.json",
-            "status": "ok",
-            "output_shape": "regimes",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "onchain_holder_behavior": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\onchain_holder_behavior\\time_series.json",
-            "status": "ok",
-            "output_shape": "time_series",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "onchain_holder_behavior": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          }
-        ]
-      },
       {
         "family_key": "prices_ohlcv",
         "json_count": 2,
@@ -1672,15 +257,8 @@
             "status": "ok",
             "output_shape": "candlestick",
             "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
+            "symbols": [],
+            "timeframes": [],
             "data_types": {
               "candlestick": 4
             },
@@ -1692,15 +270,8 @@
             "status": "ok",
             "output_shape": "time_series",
             "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
+            "symbols": [],
+            "timeframes": [],
             "data_types": {
               "candlestick": 4
             },
@@ -1710,149 +281,16 @@
         ]
       },
       {
-        "family_key": "sentiment_positioning",
-        "json_count": 3,
-        "outputs": [
-          {
-            "path": "data_output\\families\\sentiment_positioning\\bars.json",
-            "status": "ok",
-            "output_shape": "bars",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "long_short_ratio": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\sentiment_positioning\\candlestick_derived.json",
-            "status": "ok",
-            "output_shape": "candlestick_derived",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "long_short_ratio": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\sentiment_positioning\\time_series.json",
-            "status": "ok",
-            "output_shape": "time_series",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "long_short_ratio": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          }
-        ]
-      },
-      {
         "family_key": "volume_orderflow",
-        "json_count": 4,
+        "json_count": 1,
         "outputs": [
-          {
-            "path": "data_output\\families\\volume_orderflow\\cvd_candlestick_derived.json",
-            "status": "ok",
-            "output_shape": "cvd_candlestick_derived",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "cvd": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\volume_orderflow\\cvd_time_series.json",
-            "status": "ok",
-            "output_shape": "cvd_time_series",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "cvd": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
-          {
-            "path": "data_output\\families\\volume_orderflow\\orderflow_features.json",
-            "status": "ok",
-            "output_shape": "orderflow_features",
-            "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
-            "data_types": {
-              "cvd": 4
-            },
-            "blocks_count": 4,
-            "block_issues": []
-          },
           {
             "path": "data_output\\families\\volume_orderflow\\volume_features.json",
             "status": "ok",
             "output_shape": "volume_features",
             "records_processed": 4,
-            "symbols": [
-              "BTCUSDT"
-            ],
-            "timeframes": [
-              "15m",
-              "1m",
-              "4h",
-              "5m"
-            ],
+            "symbols": [],
+            "timeframes": [],
             "data_types": {
               "candlestick": 4
             },

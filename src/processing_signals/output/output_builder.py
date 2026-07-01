@@ -119,6 +119,13 @@ class OutputBuilder:
             "records_with_microstructure": 0,
             "records_with_feature_snapshot": 0,
             "records_with_regime_flags": 0,
+            "technical_indicators": {
+                "records_with_base_technical": 0,
+                "records_with_view_technical": 0,
+                "records_with_candlestick_derived_technical": 0,
+                "records_with_total_technical_outputs": 0,
+                "technical_output_views": [],
+            },
             "statistics": {
                 "numeric_column_counts": {},
                 "windows": [],
@@ -134,10 +141,12 @@ class OutputBuilder:
         statistics_windows: set[Any] = set()
         statistics_references: set[Any] = set()
         regime_windows: set[Any] = set()
+        technical_output_views: set[str] = set()
 
         for block in blocks:
             math_payload = block.get("math", {})
             technical = math_payload.get("technical_indicators")
+            view_math = block.get("view_math", {}) or {}
             statistics = math_payload.get("statistics") or {}
             regimes = math_payload.get("statistical_regimes") or {}
             microstructure = math_payload.get("microstructure")
@@ -145,6 +154,21 @@ class OutputBuilder:
 
             if technical:
                 summary["records_with_technical"] += 1
+                summary["technical_indicators"]["records_with_base_technical"] += 1
+                technical_output_views.add("base")
+            view_technical_counted = False
+            for view_name in ["candlestick_derived", "cvd_candlestick_derived"]:
+                view_technical = view_math.get(view_name, {}).get("technical_indicators")
+                if not view_technical:
+                    continue
+                view_technical_counted = True
+                technical_output_views.add(view_name)
+                if view_name == "candlestick_derived":
+                    summary["technical_indicators"]["records_with_candlestick_derived_technical"] += 1
+            if view_technical_counted:
+                summary["technical_indicators"]["records_with_view_technical"] += 1
+            if technical or view_technical_counted:
+                summary["technical_indicators"]["records_with_total_technical_outputs"] += 1
             if statistics:
                 summary["records_with_statistics"] += 1
                 for column in statistics.get("numeric_columns", []):
@@ -172,6 +196,7 @@ class OutputBuilder:
         summary["statistics"]["windows"] = sorted(statistics_windows)
         summary["statistics"]["reference_columns"] = sorted(statistics_references)
         summary["statistical_regimes"]["windows"] = sorted(regime_windows)
+        summary["technical_indicators"]["technical_output_views"] = sorted(technical_output_views)
         return summary
 
     def _build_previews(self, blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:

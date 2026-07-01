@@ -234,6 +234,7 @@ class FamilyOutputBuilder:
                 "decision": block.get("decision", {}),
                 "math": self.build_math_for_view(block, output_shape),
                 "patterns": block.get("patterns", {}),
+                "view_patterns": self._view_patterns_for_shape(block, output_shape),
                 "routes": block.get("routes", {}),
             }
         )
@@ -400,6 +401,7 @@ class FamilyOutputBuilder:
                     "source_rows": self._source_rows(block),
                     "reference_column": conversion.get("reference_column"),
                 },
+                "view_patterns": self._view_patterns_for_shape(block, output_shape),
                 "math_summary": self._compact_math_summary(block),
                 "math": self.build_math_for_view(block, output_shape),
             }
@@ -599,6 +601,15 @@ class FamilyOutputBuilder:
             "regime_flags": self._regime_flags(block),
             "warnings": block.get("math", {}).get("warnings", []),
         }
+
+    @staticmethod
+    def _view_patterns_for_shape(block: dict[str, Any], output_shape: str) -> dict[str, Any]:
+        view_patterns = block.get("patterns", {}).get("view_patterns", {}) or {}
+        if output_shape == "time_series":
+            return view_patterns
+        if output_shape in {"candlestick_derived", "cvd_candlestick_derived"}:
+            return view_patterns.get(output_shape) or view_patterns.get("candlestick_derived", {})
+        return {}
 
     @staticmethod
     def _transform_summary(block: dict[str, Any]) -> dict[str, Any]:
@@ -825,7 +836,6 @@ class FamilyOutputBuilder:
         statistics = math_payload.get("statistics", {}) or {}
         regimes = math_payload.get("statistical_regimes", {}) or {}
         feature_snapshot = math_payload.get("feature_snapshot", {}) or {}
-        technical = math_payload.get("technical_indicators", {}) or {}
         numeric_columns = statistics.get("numeric_columns", []) or []
         return {
             "has_statistics": bool(statistics),
@@ -835,8 +845,6 @@ class FamilyOutputBuilder:
             "has_statistical_regimes": bool(regimes),
             "regime_windows": regimes.get("windows", []),
             "last_regime_count": len(regimes.get("last_regimes", {}) or {}),
-            "has_technical_indicators": bool(technical),
-            "technical_indicators_available_in": ["candlestick_derived.json"] if technical else [],
             "has_feature_snapshot": bool(feature_snapshot),
             "feature_count": len(feature_snapshot),
         }

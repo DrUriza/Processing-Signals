@@ -72,7 +72,7 @@ class ProcessingMathEngine:
         """Compute math payloads for transformed OHLC-compatible views."""
         view_math: dict[str, Any] = {}
         indicator_engine = IndicatorEngine()
-        for view_name in ["bars", "candlestick_derived"]:
+        for view_name in ["candlestick_derived", "cvd_candlestick_derived"]:
             records = transforms.get(view_name, {}).get("records", [])
             if not records:
                 continue

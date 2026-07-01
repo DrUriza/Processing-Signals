@@ -244,7 +244,7 @@ class CandlestickPatternDetector:
         return swings[-12:]
 
     def _head_and_shoulders(self, swings: list[dict[str, Any]], inverse: bool) -> tuple[dict[str, Any], dict[str, Any], bool] | None:
-        expected = ["low", "high", "low", "high", "low"] if inverse else ["high", "low", "high", "low", "high"]
+        expected = ["low", "high", "low", "high", "low", "high", "low"] if inverse else ["high", "low", "high", "low", "high", "low", "high"]
         for offset in range(max(len(swings) - 5, 0), -1, -1):
             segment = swings[offset : offset + 5]
             if len(segment) < 5 or [point["type"] for point in segment] != expected:

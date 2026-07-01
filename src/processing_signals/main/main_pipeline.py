@@ -9,8 +9,10 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from processing_signals.classification.output_classifier import OutputClassifier
+from processing_signals.input.config import RuntimeConfig, load_runtime_config
 from processing_signals.input.input_reader import InputReader
 from processing_signals.input.json_loader import InputRecord
+from processing_signals.input.input_pipeline import InputPipeline
 from processing_signals.output.family_output_builder import FamilyOutputBuilder
 from processing_signals.output.output_builder import OutputBuilder
 from processing_signals.output.output_family_rules import resolve_output_family
@@ -187,6 +189,11 @@ def parse_args() -> argparse.Namespace:
         description="Run Processing-Signals main pipeline: input -> processing -> math -> classification -> output."
     )
     parser.add_argument(
+        "--runtime",
+        default="runtime.json",
+        help="Runtime configuration JSON used to orchestrate the internal input pipeline before processing.",
+    )
+    parser.add_argument(
         "--input",
         default=None,
         help="Input JSON file, ZIP file, or directory containing JSON files. Defaults to the first supported file in data_input/.",
@@ -217,10 +224,22 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    input_path = resolve_input_path(args.input)
+    runtime = _load_runtime_if_exists(args.runtime)
+    input_path = Path(args.input) if args.input else None
+
+    if runtime and runtime.input.enabled and not args.input:
+        input_result = InputPipeline(runtime_path=args.runtime).run()
+        input_path = Path(input_result["output_path"])
+    elif input_path is None:
+        input_path = resolve_input_path(None)
+
+    output_path = Path(args.output)
+    if runtime and args.output == "data_output/main_pipeline_output.json":
+        output_path = Path(runtime.processing.output_path)
+
     pipeline = MainPipeline(
         input_path=input_path,
-        output_path=Path(args.output),
+        output_path=output_path,
         max_rows=args.max_rows,
         write_validation_report=args.write_validation_report,
         write_manifest=args.write_manifest,
@@ -236,13 +255,13 @@ def main() -> None:
         print(f"{data_type}: {count}")
     print()
     print("main_output:")
-    print(Path(args.output).resolve())
+    print(output_path.resolve())
     print()
     print(f"validation_status: {result.get('validation_status')}")
     print()
     if args.write_validation_report:
         print("validation_report:")
-        print(Path(args.output).parent / "validation_report.json")
+        print(output_path.parent / "validation_report.json")
         print()
     if args.write_manifest:
         print("metadata_outputs:")
@@ -288,6 +307,17 @@ def resolve_input_path(input_arg: str | None) -> Path:
         raise FileNotFoundError("No --input provided and no .zip or .json files were found in data_input/.")
 
     return candidates[0]
+
+
+def _load_runtime_if_exists(path_str: str | None) -> RuntimeConfig | None:
+    if not path_str:
+        return None
+
+    path = Path(path_str)
+    if not path.exists():
+        return None
+
+    return load_runtime_config(path)
 
 
 if __name__ == "__main__":

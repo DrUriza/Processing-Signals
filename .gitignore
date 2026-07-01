@@ -15,3 +15,5 @@ dist/
 .ipynb_checkpoints/
 .DS_Store
 Thumbs.db
+src/processing_signals/input/apis/*/extracted_raw/*
+!src/processing_signals/input/apis/*/extracted_raw/.gitkeep
