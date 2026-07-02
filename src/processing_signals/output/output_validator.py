@@ -79,7 +79,7 @@ class OutputValidator:
             errors.append(f"Unexpected family folder: {family_key}")
 
         if (self.families_root / "manifest").exists():
-            errors.append("Manifest must not be written under data_output/families/manifest.")
+            errors.append("Manifest must not be written under src/processing_signals/output/families/manifest.")
 
         for family_dir in sorted(family_dirs):
             json_files = sorted(family_dir.glob("*.json"))

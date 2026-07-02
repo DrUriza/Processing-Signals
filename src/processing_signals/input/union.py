@@ -7,18 +7,8 @@ from pathlib import Path
 from typing import Any
 
 
-OFFICIAL_FAMILIES = [
-    "prices_ohlcv",
-    "liquidity_microstructure",
-    "volume_orderflow",
-    "institutional_flows",
-    "liquidations",
-    "derivatives_open_interest",
-    "sentiment_positioning",
-    "on_chain_miners",
-    "options_volatility",
-]
-
+OFFICIAL_FAMILIES = ["prices_ohlcv", "liquidity_microstructure", "volume_orderflow",  "institutional_flows", 
+                     "liquidations", "derivatives_open_interest", "sentiment_positioning", "on_chain_miners", "options_volatility"]
 
 def union_normalized_payloads(
     payloads: list[dict[str, Any]],

@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 from pathlib import Path
@@ -107,7 +107,7 @@ class MainPipeline:
             manifest_path = self.output_path.parent / "metadata" / "manifest.json"
             self.output_builder.write_json(manifest, manifest_path)
             payload["manifest_summary"]["path"] = str(manifest_path)
-            payload["metadata_outputs"] = [
+            payload["metaoutputs"] = [
                 {
                     "output_shape": "manifest",
                     "path": str(manifest_path),
@@ -200,7 +200,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output",
-        default="data_output/main_pipeline_output.json",
+        default="src/processing_signals/output/main_pipeline_output.json",
         help="Output JSON path.",
     )
     parser.add_argument(
@@ -212,12 +212,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--write-validation-report",
         action="store_true",
-        help="Write data_output/validation_report.json in addition to embedding validation in the main output.",
+        help="Write src/processing_signals/output/validation_report.json in addition to embedding validation in the main output.",
     )
     parser.add_argument(
         "--write-manifest",
         action="store_true",
-        help="Write data_output/metadata/manifest.json in addition to embedding manifest in the main output.",
+        help="Write src/processing_signals/output/metadata/manifest.json in addition to embedding manifest in the main output.",
     )
     return parser.parse_args()
 
@@ -234,7 +234,7 @@ def main() -> None:
         input_path = resolve_input_path(None)
 
     output_path = Path(args.output)
-    if runtime and args.output == "data_output/main_pipeline_output.json":
+    if runtime and args.output == "src/processing_signals/output/main_pipeline_output.json":
         output_path = Path(runtime.processing.output_path)
 
     pipeline = MainPipeline(
@@ -264,8 +264,8 @@ def main() -> None:
         print(output_path.parent / "validation_report.json")
         print()
     if args.write_manifest:
-        print("metadata_outputs:")
-        for output in result.get("metadata_outputs", []):
+        print("metaoutputs:")
+        for output in result.get("metaoutputs", []):
             print(output["path"])
         print()
     print("official_families:")
@@ -322,3 +322,4 @@ def _load_runtime_if_exists(path_str: str | None) -> RuntimeConfig | None:
 
 if __name__ == "__main__":
     main()
+

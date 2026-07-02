@@ -7,9 +7,8 @@ from importlib import import_module
 from pathlib import Path
 from typing import Any
 
-from processing_signals.input.connection import create_connection
 from processing_signals.input.extraction import extract_endpoint
-from processing_signals.input.preprocessing import normalize_extracted_raw
+from processing_signals.input.normalization import normalize_extracted_raw
 from processing_signals.input.union import union_normalized_payloads
 
 
@@ -57,15 +56,12 @@ def run_input_pipeline(
     run_id: str | None = None,
     timeframes: list[str] | None = None,
     extraction_windows: list[str] | None = None,
-    min_records: int = 200,
+    min_records: int = 600,
     **_: Any,
 ) -> dict[str, Any]:
     """Run the Input pipeline."""
     run_id = run_id or datetime.now(tz=UTC).strftime("%Y%m%dT%H%M%SZ")
     selected_providers = providers or ["coinglass", "cryptoquant", "glassnode", "external_indices"]
-    timeframes = timeframes or ["1m", "5m", "15m", "1h"]
-    extraction_windows = extraction_windows or ["latest", "24h"]
-
     normalized_payloads: list[dict[str, Any]] = []
     provider_status: dict[str, dict[str, Any]] = {}
 
@@ -75,19 +71,23 @@ def run_input_pipeline(
             continue
 
         endpoints = _load_provider_endpoints(provider)
-        raw_payloads: list[dict[str, Any]] = []
         skipped_live_external = 0
         skipped_live_missing_path = 0
+        live_request_failed = 0
 
         for endpoint_config in endpoints:
-            for timeframe, extraction_window in _endpoint_iterations(endpoint_config, timeframes, extraction_windows):
-                connection = create_connection(provider, mode, endpoint_config)
+            for timeframe, extraction_window in _endpoint_iterations(
+                endpoint_config,
+                timeframes=timeframes,
+                extraction_windows=extraction_windows,
+            ):
                 raw = extract_endpoint(
-                    connection,
-                    endpoint_config,
-                    run_id,
-                    asset,
-                    symbol,
+                    provider=provider,
+                    mode=mode,
+                    endpoint_config=endpoint_config,
+                    run_id=run_id,
+                    asset=asset,
+                    symbol=symbol,
                     timeframe=timeframe,
                     extraction_window=extraction_window,
                     min_records=min_records,
@@ -96,9 +96,10 @@ def run_input_pipeline(
                     skipped_live_external += 1
                 elif raw["status"] == "skipped_live_path_missing":
                     skipped_live_missing_path += 1
-                raw_payloads.append(raw)
+                elif raw["status"] == "live_request_failed":
+                    live_request_failed += 1
 
-        normalized = normalize_extracted_raw(provider, run_id, raw_payloads)
+        normalized = normalize_extracted_raw(provider, run_id)
         normalized_payloads.extend(normalized)
         provider_status[provider] = {
             "status": "ok" if normalized else "skipped",
@@ -106,6 +107,7 @@ def run_input_pipeline(
             "payloads": len(normalized),
             "skipped_live_external_provider_required": skipped_live_external,
             "skipped_live_path_missing": skipped_live_missing_path,
+            "live_request_failed": live_request_failed,
         }
 
     manifest = union_normalized_payloads(normalized_payloads, run_id, output_dir=output_dir)
@@ -126,19 +128,23 @@ def _load_provider_endpoints(provider: str) -> list[dict[str, Any]]:
 
 def _endpoint_iterations(
     endpoint_config: dict[str, Any],
-    timeframes: list[str],
-    extraction_windows: list[str],
+    timeframes: list[str] | None,
+    extraction_windows: list[str] | None,
 ) -> list[tuple[str | None, str | None]]:
     if endpoint_config.get("supports_timeframe"):
-        allowed = endpoint_config.get("synthetic_timeframes") or timeframes
-        return [(timeframe, None) for timeframe in timeframes if timeframe in allowed]
+        configured_timeframes = list(endpoint_config.get("synthetic_timeframes") or [])
+        if timeframes is not None:
+            configured_timeframes = [timeframe for timeframe in configured_timeframes if timeframe in timeframes]
+        return [(timeframe, None) for timeframe in configured_timeframes]
 
-    configured_windows = endpoint_config.get("extraction_windows") or extraction_windows
+    configured_windows = list(endpoint_config.get("extraction_windows") or [])
+    if extraction_windows is not None:
+        configured_windows = [window for window in configured_windows if window in extraction_windows]
     return [(None, window) for window in configured_windows]
 
 
 def validate_input_outputs(normalized_dir: str | Path = "data_input/normalized") -> dict[str, Any]:
-    """Validate normalized Input outputs without requiring ZIP packages."""
+    """Validate normalized Input outputs without requiring archive output."""
     import json
 
     normalized_root = Path(normalized_dir)

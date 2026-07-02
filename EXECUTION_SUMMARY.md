@@ -6,7 +6,7 @@ This checkpoint closes the previous processing stage and establishes the validat
 
 - Stage: Sections 1-3
 - Status: Closed
-- Master report: `data_output/main_pipeline_output.json`
+- Master report: `src/processing_signals/output/main_pipeline_output.json`
 
 ## Validated
 
@@ -21,8 +21,8 @@ This checkpoint closes the previous processing stage and establishes the validat
 
 ## Reference Snapshot
 
-- Families directory: `data_output/families/`
-- Master output summary: `data_output/main_pipeline_output.json`
+- Families directory: `src/processing_signals/output/families/`
+- Master output summary: `src/processing_signals/output/main_pipeline_output.json`
 
 ## Pending for Section 4
 
